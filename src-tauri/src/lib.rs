@@ -1,6 +1,6 @@
 mod modules;
 
-use modules::{fs, net, pty, shell};
+use modules::{fs, net, pty, shell, vault};
 use tauri::{Emitter, Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_window_state::StateFlags;
 
@@ -111,6 +111,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .manage(pty::PtyState::default())
         .manage(shell::ShellState::default())
+        .manage(vault::VaultState::default())
         .invoke_handler(tauri::generate_handler![
             pty::pty_open,
             pty::pty_write,
@@ -138,6 +139,10 @@ pub fn run() {
             shell::shell_bg_list,
             open_settings_window,
             net::http_ping,
+            vault::vault_open,
+            vault::vault_close,
+            vault::vault_load_index,
+            vault::vault_save_index,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
