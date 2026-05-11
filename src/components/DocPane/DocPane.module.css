@@ -14,15 +14,15 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #111;
-  color: #ddd;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 .header {
   padding: 8px 14px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--border);
   font-size: 11px;
-  color: #888;
+  color: var(--muted-foreground);
   font-family: ui-monospace, monospace;
   white-space: nowrap;
   overflow: hidden;
@@ -105,12 +105,12 @@
 
 /* Inline code */
 .markdownBody code {
-  background: #1a1a1a;
+  background: var(--muted);
   padding: 1px 6px;
   border-radius: 3px;
   font-size: 13px;
   font-family: ui-monospace, monospace;
-  color: #7ab8e0;
+  color: #7aa2f7;
 }
 
 /* Hover affordance — inline code that looks like a vault path is clickable.
@@ -125,7 +125,7 @@
 
 /* Code blocks */
 .markdownBody pre {
-  background: #0d0d0d;
+  background: var(--card);
   padding: 12px;
   border-radius: 6px;
   overflow: auto;
@@ -148,7 +148,7 @@
 }
 
 .markdownBody thead {
-  background: #161616;
+  background: var(--muted);
 }
 
 .markdownBody th,
@@ -216,11 +216,11 @@
 
 /* Embedded notes */
 .markdownBody :global(.embed) {
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 8px 14px;
   margin: 8px 0;
-  background: #161616;
+  background: var(--card);
 }
 
 .markdownBody :global(.embed-unresolved) {
@@ -239,8 +239,8 @@
 
 .properties {
   margin: 0 0 18px;
-  background: #161616;
-  border: 1px solid #222;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 8px 12px;
 }

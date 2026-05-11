@@ -11,13 +11,13 @@
 }
 
 .modal {
-  background: #181818;
-  color: #eee;
+  background: var(--card);
+  color: var(--card-foreground);
   padding: 24px 28px;
   border-radius: 10px;
   min-width: 360px;
   max-width: 480px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border);
 }
 
 .modal h2 {

@@ -86,37 +86,39 @@
 }
 
 .dark {
-    --background: oklch(0.148 0.004 228.8);
-    --foreground: oklch(0.987 0.002 197.1);
-    --card: oklch(0.218 0.008 223.9);
-    --card-foreground: oklch(0.987 0.002 197.1);
-    --popover: oklch(0.218 0.008 223.9);
-    --popover-foreground: oklch(0.987 0.002 197.1);
-    --primary: oklch(0.925 0.005 214.3);
-    --primary-foreground: oklch(0.218 0.008 223.9);
-    --secondary: oklch(0.275 0.011 216.9);
-    --secondary-foreground: oklch(0.987 0.002 197.1);
-    --muted: oklch(0.275 0.011 216.9);
-    --muted-foreground: oklch(0.723 0.014 214.4);
-    --accent: oklch(0.275 0.011 216.9);
-    --accent-foreground: oklch(0.987 0.002 197.1);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.56 0.021 213.5);
+    /* Tokyo Night palette — bg/surface tokens use rgba so macOS vibrancy
+     * shows through. Foreground/accent tokens stay oklch for sharp rendering. */
+    --background: rgba(26, 27, 38, 0.6);
+    --foreground: oklch(0.85 0.04 250);
+    --card: rgba(36, 40, 59, 0.65);
+    --card-foreground: oklch(0.85 0.04 250);
+    --popover: rgba(36, 40, 59, 0.95);
+    --popover-foreground: oklch(0.85 0.04 250);
+    --primary: oklch(0.7 0.16 248);
+    --primary-foreground: oklch(0.15 0.04 250);
+    --secondary: rgba(54, 60, 86, 0.6);
+    --secondary-foreground: oklch(0.85 0.04 250);
+    --muted: rgba(54, 60, 86, 0.4);
+    --muted-foreground: oklch(0.58 0.04 250);
+    --accent: rgba(64, 73, 103, 0.7);
+    --accent-foreground: oklch(0.85 0.04 250);
+    --destructive: oklch(0.62 0.2 25);
+    --border: rgba(255, 255, 255, 0.07);
+    --input: rgba(255, 255, 255, 0.08);
+    --ring: oklch(0.6 0.12 248);
     --chart-1: oklch(0.872 0.007 219.6);
     --chart-2: oklch(0.56 0.021 213.5);
     --chart-3: oklch(0.45 0.017 213.2);
     --chart-4: oklch(0.378 0.015 216);
     --chart-5: oklch(0.275 0.011 216.9);
-    --sidebar: oklch(0.218 0.008 223.9);
-    --sidebar-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-accent: oklch(0.275 0.011 216.9);
-    --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.56 0.021 213.5);
+    --sidebar: rgba(26, 27, 38, 0.5);
+    --sidebar-foreground: oklch(0.85 0.04 250);
+    --sidebar-primary: oklch(0.7 0.16 248);
+    --sidebar-primary-foreground: oklch(0.15 0.04 250);
+    --sidebar-accent: rgba(64, 73, 103, 0.6);
+    --sidebar-accent-foreground: oklch(0.85 0.04 250);
+    --sidebar-border: rgba(255, 255, 255, 0.05);
+    --sidebar-ring: oklch(0.6 0.12 248);
 }
 
 @layer base {
@@ -130,6 +132,7 @@
     }
   html, body, #root {
     height: 100%;
+    background: transparent !important;
     }
   html {
     @apply font-sans;
