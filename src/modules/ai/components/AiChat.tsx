@@ -1,20 +1,16 @@
-import {
-  Conversation,
-  ConversationContent,
-  ConversationEmptyState,
-  ConversationScrollButton,
-} from "@/components/ai-elements/conversation";
-import {
-  Message,
-  MessageContent,
-  MessageResponse,
-} from "@/components/ai-elements/message";
-import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/components/ai-elements/reasoning";
-import { Tool } from "@/components/ai-elements/tool";
+// ai-elements deleted (chunk A of AI strip) — inline stubs until src/modules/ai/ is removed
+import type { ReactNode } from "react";
+function Conversation({ children }: { children?: ReactNode }) { return <div className="flex flex-col flex-1 min-h-0 overflow-hidden">{children}</div>; }
+function ConversationContent({ children, className }: { children?: ReactNode; className?: string }) { return <div className={`flex flex-col flex-1 min-h-0 overflow-y-auto ${className ?? ""}`}>{children}</div>; }
+function ConversationEmptyState({ title, description }: { title: string; description: string }) { return <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center"><p className="font-medium text-sm">{title}</p><p className="text-xs text-muted-foreground">{description}</p></div>; }
+function ConversationScrollButton() { return null; }
+function Message({ children }: { children?: ReactNode; from?: string }) { return <div>{children}</div>; }
+function MessageContent({ children }: { children?: ReactNode }) { return <div className="text-sm">{children}</div>; }
+function MessageResponse({ children }: { children?: ReactNode }) { return <div className="whitespace-pre-wrap text-sm">{children}</div>; }
+function Reasoning({ children }: { children?: ReactNode }) { return <div className="text-xs text-muted-foreground">{children}</div>; }
+function ReasoningTrigger() { return null; }
+function ReasoningContent({ children }: { children?: ReactNode }) { return <div>{children}</div>; }
+function Tool({ toolName, state }: { toolName: string; state?: string; input?: unknown; output?: unknown; errorText?: string }) { return <div className="text-xs text-muted-foreground">{toolName} ({state})</div>; }
 import { HugeiconsIcon } from "@hugeicons/react";
 import { SLASH_COMMANDS, TERAX_CMD_RE } from "../lib/slashCommands";
 import { Spinner } from "@/components/ui/spinner";

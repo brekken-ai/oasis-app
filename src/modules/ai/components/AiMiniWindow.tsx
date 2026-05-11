@@ -1,11 +1,11 @@
-import {
-  Context,
-  ContextContent,
-  ContextContentBody,
-  ContextContentFooter,
-  ContextContentHeader,
-  ContextTrigger,
-} from "@/components/ai-elements/context";
+// ai-elements deleted (chunk A of AI strip) — inline stubs until src/modules/ai/ is removed
+import type { ReactNode } from "react";
+function Context({ children }: { children?: ReactNode; usedTokens?: number; maxTokens?: number; modelId?: string }) { return <>{children}</>; }
+function ContextTrigger({ className }: { className?: string }) { return <span className={className} />; }
+function ContextContent({ children, className }: { children?: ReactNode; className?: string }) { return <div className={className}>{children}</div>; }
+function ContextContentHeader() { return null; }
+function ContextContentBody({ children }: { children?: ReactNode }) { return <div>{children}</div>; }
+function ContextContentFooter({ children }: { children?: ReactNode }) { return <div>{children}</div>; }
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
