@@ -28,7 +28,8 @@ export type ShortcutId =
   | "doc.notesMode"
   | "doc.sourceMode"
   | "doc.previewMode"
-  | "doc.toggleNotesSource";
+  | "doc.toggleNotesSource"
+  | "layout.toggleSplit";
 
 export type ShortcutGroup =
   | "General"
@@ -38,7 +39,8 @@ export type ShortcutGroup =
   | "AI"
   | "View"
   | "Vault"
-  | "Doc";
+  | "Doc"
+  | "Layout";
 
 export type KeyBinding = {
   key: string;
@@ -203,6 +205,12 @@ export const SHORTCUTS: Shortcut[] = [
     group: "Doc",
     defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "e" }],
   },
+  {
+    id: "layout.toggleSplit",
+    label: "Toggle split view",
+    group: "Layout",
+    defaultBindings: [{ [MOD_PROP]: true, key: "\\" }],
+  },
 ];
 
 export const SHORTCUT_GROUPS: ShortcutGroup[] = [
@@ -214,6 +222,7 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
   "AI",
   "Vault",
   "Doc",
+  "Layout",
 ];
 
 /**

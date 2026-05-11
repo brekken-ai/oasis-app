@@ -42,6 +42,7 @@ import { ThemeProvider } from "@/modules/theme";
 import { UpdaterDialog } from "@/modules/updater";
 import { getLastVault, setLastVault } from "@/state/appPrefs";
 import { useOpenFileStore } from "@/state/openFileStore";
+import { useSplitStore } from "@/state/splitStore";
 import { useVaultStore } from "@/state/vaultStore";
 import { useDocModeStore } from "@/state/docModeStore";
 import { useVaultWatcher } from "@/hooks/useVaultWatcher";
@@ -313,9 +314,16 @@ export default function App() {
 
   const handleOpenFile = useCallback(
     (path: string, pin?: boolean) => {
-      // Explorer defaults to preview (pin=false); explicit actions like
-      // context-menu "Open" pass pin=true for a persistent tab.
-      openFileTab(path, pin ?? false);
+      // In split mode, clicking a .md file only updates DocPane — no tab switch.
+      // This lets the user keep their active terminal tab on the left while
+      // the right panel reflects the new file.
+      const isSplitMd = useSplitStore.getState().open && path.endsWith(".md");
+
+      if (!isSplitMd) {
+        // Explorer defaults to preview (pin=false); explicit actions like
+        // context-menu "Open" pass pin=true for a persistent tab.
+        openFileTab(path, pin ?? false);
+      }
 
       // For .md files, also load contents into the doc pane store so
       // DocPane / NotesMode can render them.
@@ -398,6 +406,8 @@ export default function App() {
     handleClose(activeId);
   }, [activeId, closeActivePane, handleClose]);
 
+  const splitOpen = useSplitStore((s) => s.open);
+
   const openQuickSwitcher = useQuickSwitcherStore((s) => s.openModal);
   const openSearchPanel = useSearchStore((s) => s.openPanel);
 
@@ -432,6 +442,7 @@ export default function App() {
       "doc.sourceMode": () => useDocModeStore.getState().setMode("source"),
       "doc.previewMode": () => useDocModeStore.getState().setMode("preview"),
       "doc.toggleNotesSource": () => useDocModeStore.getState().toggleNotesSource(),
+      "layout.toggleSplit": () => useSplitStore.getState().toggle(),
     }),
     [
       activeId,
@@ -589,77 +600,166 @@ export default function App() {
               </ResizablePanel>
               <ResizableHandle withHandle />
               <ResizablePanel id="workspace" defaultSize="78%" minSize="30%">
-                <div className="flex h-full min-h-0 flex-col">
-                  <div className="relative min-h-0 flex-1">
-                    <div
-                      className={cn(
-                        "absolute inset-0 px-3 pt-2 pb-2",
-                        !isTerminalTab && "invisible pointer-events-none",
-                      )}
-                      aria-hidden={!isTerminalTab}
-                    >
-                      <TerminalStack
-                        tabs={tabs}
-                        activeId={activeId}
-                        registerHandle={registerTerminalHandle}
-                        onSearchReady={handleSearchReady}
-                        onCwd={handleTerminalCwd}
-                        onDetectedLocalUrl={handleDetectedLocalUrl}
-                        onExit={handleLeafExit}
-                        onTeraxOpen={handleTeraxOpen}
-                        onFocusLeaf={handleFocusLeaf}
-                      />
-                    </div>
-                    <div
-                      className={cn(
-                        "absolute inset-0 px-3 pt-2 pb-2",
-                        (!isEditorTab || isNotesTab) && "invisible pointer-events-none",
-                      )}
-                      aria-hidden={!isEditorTab || isNotesTab}
-                    >
-                      <EditorStack
-                        tabs={tabs}
-                        activeId={activeId}
-                        registerHandle={registerEditorHandle}
-                        onDirtyChange={handleEditorDirty}
-                        onCloseTab={disposeTab}
-                      />
-                    </div>
-                    {/* DocPane: shown in-place when the active editor tab is a .md file */}
-                    <div
-                      className={cn(
-                        "absolute inset-0",
-                        !isNotesTab && "invisible pointer-events-none",
-                      )}
-                      aria-hidden={!isNotesTab}
-                    >
+                {splitOpen ? (
+                  /* Split mode: left = active tab content, right = persistent DocPane */
+                  <ResizablePanelGroup orientation="horizontal" className="h-full">
+                    <ResizablePanel defaultSize={60} minSize={30}>
+                      <div className="flex h-full min-h-0 flex-col">
+                        <div className="relative min-h-0 flex-1">
+                          <div
+                            className={cn(
+                              "absolute inset-0 px-3 pt-2 pb-2",
+                              !isTerminalTab && "invisible pointer-events-none",
+                            )}
+                            aria-hidden={!isTerminalTab}
+                          >
+                            <TerminalStack
+                              tabs={tabs}
+                              activeId={activeId}
+                              registerHandle={registerTerminalHandle}
+                              onSearchReady={handleSearchReady}
+                              onCwd={handleTerminalCwd}
+                              onDetectedLocalUrl={handleDetectedLocalUrl}
+                              onExit={handleLeafExit}
+                              onTeraxOpen={handleTeraxOpen}
+                              onFocusLeaf={handleFocusLeaf}
+                            />
+                          </div>
+                          <div
+                            className={cn(
+                              "absolute inset-0 px-3 pt-2 pb-2",
+                              (!isEditorTab || isNotesTab) && "invisible pointer-events-none",
+                            )}
+                            aria-hidden={!isEditorTab || isNotesTab}
+                          >
+                            <EditorStack
+                              tabs={tabs}
+                              activeId={activeId}
+                              registerHandle={registerEditorHandle}
+                              onDirtyChange={handleEditorDirty}
+                              onCloseTab={disposeTab}
+                            />
+                          </div>
+                          <div
+                            className={cn(
+                              "absolute inset-0",
+                              !isNotesTab && "invisible pointer-events-none",
+                            )}
+                            aria-hidden={!isNotesTab}
+                          >
+                            <DocPane
+                              onOpenVaultFile={(relPath) => {
+                                const root = useVaultStore.getState().root;
+                                if (!root) return;
+                                const absPath = `${root.replace(/\/+$/, "")}/${relPath}`;
+                                handleOpenFile(absPath, true);
+                              }}
+                            />
+                          </div>
+                          <div
+                            className={cn(
+                              "absolute inset-0 px-3 pt-2 pb-2",
+                              !isPreviewTab && "invisible pointer-events-none",
+                            )}
+                            aria-hidden={!isPreviewTab}
+                          >
+                            <PreviewStack
+                              tabs={tabs}
+                              activeId={activeId}
+                              registerHandle={registerPreviewHandle}
+                              onUrlChange={handlePreviewUrl}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </ResizablePanel>
+                    <ResizableHandle withHandle className="bg-[#262626] hover:bg-[#333333] transition-colors" />
+                    <ResizablePanel defaultSize={40} minSize={25}>
+                      {/* Right panel: persistent DocPane showing the last-opened .md */}
                       <DocPane
                         onOpenVaultFile={(relPath) => {
                           const root = useVaultStore.getState().root;
                           if (!root) return;
                           const absPath = `${root.replace(/\/+$/, "")}/${relPath}`;
-                          // pin=true so cross-refs become persistent tabs,
-                          // not throwaway preview tabs.
                           handleOpenFile(absPath, true);
                         }}
                       />
-                    </div>
-                    <div
-                      className={cn(
-                        "absolute inset-0 px-3 pt-2 pb-2",
-                        !isPreviewTab && "invisible pointer-events-none",
-                      )}
-                      aria-hidden={!isPreviewTab}
-                    >
-                      <PreviewStack
-                        tabs={tabs}
-                        activeId={activeId}
-                        registerHandle={registerPreviewHandle}
-                        onUrlChange={handlePreviewUrl}
-                      />
+                    </ResizablePanel>
+                  </ResizablePanelGroup>
+                ) : (
+                  /* Normal mode: existing overlay stack unchanged */
+                  <div className="flex h-full min-h-0 flex-col">
+                    <div className="relative min-h-0 flex-1">
+                      <div
+                        className={cn(
+                          "absolute inset-0 px-3 pt-2 pb-2",
+                          !isTerminalTab && "invisible pointer-events-none",
+                        )}
+                        aria-hidden={!isTerminalTab}
+                      >
+                        <TerminalStack
+                          tabs={tabs}
+                          activeId={activeId}
+                          registerHandle={registerTerminalHandle}
+                          onSearchReady={handleSearchReady}
+                          onCwd={handleTerminalCwd}
+                          onDetectedLocalUrl={handleDetectedLocalUrl}
+                          onExit={handleLeafExit}
+                          onTeraxOpen={handleTeraxOpen}
+                          onFocusLeaf={handleFocusLeaf}
+                        />
+                      </div>
+                      <div
+                        className={cn(
+                          "absolute inset-0 px-3 pt-2 pb-2",
+                          (!isEditorTab || isNotesTab) && "invisible pointer-events-none",
+                        )}
+                        aria-hidden={!isEditorTab || isNotesTab}
+                      >
+                        <EditorStack
+                          tabs={tabs}
+                          activeId={activeId}
+                          registerHandle={registerEditorHandle}
+                          onDirtyChange={handleEditorDirty}
+                          onCloseTab={disposeTab}
+                        />
+                      </div>
+                      {/* DocPane: shown in-place when the active editor tab is a .md file */}
+                      <div
+                        className={cn(
+                          "absolute inset-0",
+                          !isNotesTab && "invisible pointer-events-none",
+                        )}
+                        aria-hidden={!isNotesTab}
+                      >
+                        <DocPane
+                          onOpenVaultFile={(relPath) => {
+                            const root = useVaultStore.getState().root;
+                            if (!root) return;
+                            const absPath = `${root.replace(/\/+$/, "")}/${relPath}`;
+                            // pin=true so cross-refs become persistent tabs,
+                            // not throwaway preview tabs.
+                            handleOpenFile(absPath, true);
+                          }}
+                        />
+                      </div>
+                      <div
+                        className={cn(
+                          "absolute inset-0 px-3 pt-2 pb-2",
+                          !isPreviewTab && "invisible pointer-events-none",
+                        )}
+                        aria-hidden={!isPreviewTab}
+                      >
+                        <PreviewStack
+                          tabs={tabs}
+                          activeId={activeId}
+                          registerHandle={registerPreviewHandle}
+                          onUrlChange={handlePreviewUrl}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </ResizablePanel>
             </ResizablePanelGroup>
           </main>
