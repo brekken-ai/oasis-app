@@ -66,7 +66,24 @@ export function NotesMode({ onTagClick, onWikilinkClick }: Props) {
         if (wikilinkTarget) {
           e.preventDefault();
           onWikilinkClick(wikilinkTarget);
+          return;
         }
+
+        // Plain markdown links: [text](path). Find the nearest <a> ancestor
+        // so clicks on inline children (e.g., <code> inside the link) still
+        // resolve. Treat vault-relative paths as wikilink-style navigation;
+        // let external URLs (http/https/mailto) fall through to default
+        // browser behavior.
+        const anchor = target.closest("a") as HTMLAnchorElement | null;
+        if (!anchor) return;
+        const href = anchor.getAttribute("href");
+        if (!href) return;
+        // External / scheme-bearing URLs — let the browser handle them.
+        if (/^(?:[a-z][a-z0-9+.-]*:)/i.test(href)) return;
+        // Relative path — open in the doc pane.
+        e.preventDefault();
+        const cleanHref = href.replace(/^\.\//, "");
+        onWikilinkClick(cleanHref.replace(/\.md$/, ""));
       }}
     >
       <PropertiesPanel

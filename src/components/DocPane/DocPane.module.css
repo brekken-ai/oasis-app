@@ -127,6 +127,63 @@
   padding: 0;
 }
 
+/* Tables (GFM) */
+.markdownBody table {
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 13px;
+  width: auto;
+  max-width: 100%;
+}
+
+.markdownBody thead {
+  background: #161616;
+}
+
+.markdownBody th,
+.markdownBody td {
+  border: 1px solid #2a2a2a;
+  padding: 6px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdownBody th {
+  font-weight: 600;
+  color: #ddd;
+}
+
+.markdownBody tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* Lists */
+.markdownBody ul,
+.markdownBody ol {
+  padding-left: 22px;
+  margin: 8px 0;
+}
+
+.markdownBody li {
+  margin: 4px 0;
+  line-height: 1.55;
+}
+
+/* Blockquotes (non-callout) */
+.markdownBody blockquote:not(:global(.callout)) {
+  border-left: 3px solid #2a2a2a;
+  padding: 4px 14px;
+  margin: 12px 0;
+  color: #bbb;
+}
+
+/* Horizontal rule */
+.markdownBody hr {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 20px 0;
+}
+
 /* Callout blocks ([!note], [!warning], etc.) */
 .markdownBody :global(.callout) {
   border-left: 3px solid #4a6a4a;
