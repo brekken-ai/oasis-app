@@ -633,7 +633,16 @@ export default function App() {
                       )}
                       aria-hidden={!isNotesTab}
                     >
-                      <DocPane />
+                      <DocPane
+                        onOpenVaultFile={(relPath) => {
+                          const root = useVaultStore.getState().root;
+                          if (!root) return;
+                          const absPath = `${root.replace(/\/+$/, "")}/${relPath}`;
+                          // pin=true so cross-refs become persistent tabs,
+                          // not throwaway preview tabs.
+                          handleOpenFile(absPath, true);
+                        }}
+                      />
                     </div>
                     <div
                       className={cn(

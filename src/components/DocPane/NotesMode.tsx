@@ -75,15 +75,30 @@ export function NotesMode({ onTagClick, onWikilinkClick }: Props) {
         // let external URLs (http/https/mailto) fall through to default
         // browser behavior.
         const anchor = target.closest("a") as HTMLAnchorElement | null;
-        if (!anchor) return;
-        const href = anchor.getAttribute("href");
-        if (!href) return;
-        // External / scheme-bearing URLs — let the browser handle them.
-        if (/^(?:[a-z][a-z0-9+.-]*:)/i.test(href)) return;
-        // Relative path — open in the doc pane.
-        e.preventDefault();
-        const cleanHref = href.replace(/^\.\//, "");
-        onWikilinkClick(cleanHref.replace(/\.md$/, ""));
+        if (anchor) {
+          const href = anchor.getAttribute("href");
+          if (!href) return;
+          // External / scheme-bearing URLs — let the browser handle them.
+          if (/^(?:[a-z][a-z0-9+.-]*:)/i.test(href)) return;
+          // Relative path — open in the doc pane.
+          e.preventDefault();
+          const cleanHref = href.replace(/^\.\//, "");
+          onWikilinkClick(cleanHref);
+          return;
+        }
+
+        // Inline code that looks like a vault-relative file path. Common
+        // pattern in notes: `ideas/foo.md` or `context/business-profile.md`.
+        // We treat any inline <code> (not inside <pre>) whose text looks
+        // like a path ending in .md as a clickable link.
+        const codeEl = target.closest("code");
+        if (codeEl && !codeEl.closest("pre")) {
+          const text = (codeEl.textContent ?? "").trim();
+          if (/^[\w./-]+\.md$/.test(text) && text.includes("/")) {
+            e.preventDefault();
+            onWikilinkClick(text);
+          }
+        }
       }}
     >
       <PropertiesPanel

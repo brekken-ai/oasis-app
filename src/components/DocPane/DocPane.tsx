@@ -24,7 +24,17 @@ import { PreviewMode } from "./PreviewMode";
 import { ModeBar } from "./ModeBar";
 import styles from "./DocPane.module.css";
 
-export function DocPane() {
+interface DocPaneProps {
+  /**
+   * Open a vault-relative file path (e.g., from a wikilink or markdown link
+   * click). When provided, takes precedence over the local
+   * openFileStore.open() call so the parent can also create a tab via
+   * openFileTab.
+   */
+  onOpenVaultFile?: (relPath: string) => void;
+}
+
+export function DocPane({ onOpenVaultFile }: DocPaneProps = {}) {
   const path = useOpenFileStore((s) => s.path);
   const open = useOpenFileStore((s) => s.open);
   const files = useVaultStore((s) => s.files);
@@ -35,8 +45,19 @@ export function DocPane() {
   };
 
   const handleWikilinkClick = (target: string) => {
-    const resolved = resolveByName(files, target);
-    if (resolved) {
+    // Two cases: target may already be a vault-relative path (from inline
+    // code or a relative <a> href) or a bare basename (from [[wikilinks]]).
+    const direct = files.find((f) => !f.isDir && f.path === target);
+    const directMd = files.find(
+      (f) => !f.isDir && f.path === `${target}.md`,
+    );
+    const resolved = direct?.path ?? directMd?.path ?? resolveByName(files, target);
+    if (!resolved) return;
+    // Prefer the parent's open-as-tab handler when provided so a real tab is
+    // created. Fall back to local store open if no parent handler.
+    if (onOpenVaultFile) {
+      onOpenVaultFile(resolved);
+    } else {
       void open(resolved);
     }
   };

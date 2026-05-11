@@ -110,6 +110,17 @@
   border-radius: 3px;
   font-size: 13px;
   font-family: ui-monospace, monospace;
+  color: #7ab8e0;
+}
+
+/* Hover affordance — inline code that looks like a vault path is clickable.
+ * The click handler in NotesMode.tsx detects the path shape; this is just
+ * the visual signal. (Code blocks inside <pre> are excluded.) */
+.markdownBody p code:hover,
+.markdownBody li code:hover,
+.markdownBody td code:hover {
+  background: #1f3a1f;
+  cursor: pointer;
 }
 
 /* Code blocks */
