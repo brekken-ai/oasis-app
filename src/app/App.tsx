@@ -42,6 +42,7 @@ import { UpdaterDialog } from "@/modules/updater";
 import { getLastVault, setLastVault } from "@/state/appPrefs";
 import { useOpenFileStore } from "@/state/openFileStore";
 import { useVaultStore } from "@/state/vaultStore";
+import { useDocModeStore } from "@/state/docModeStore";
 import { useVaultWatcher } from "@/hooks/useVaultWatcher";
 import { QuickSwitcher } from "@/components/QuickSwitcher/QuickSwitcher";
 import { SearchPanel } from "@/components/SearchPanel/SearchPanel";
@@ -419,6 +420,10 @@ export default function App() {
           handleOpenFile(`${root.replace(/\/+$/, "")}/${relPath}`);
         });
       },
+      // Doc pane mode shortcuts (only meaningful when a .md file is open)
+      "doc.notesMode": () => useDocModeStore.getState().setMode("notes"),
+      "doc.sourceMode": () => useDocModeStore.getState().setMode("source"),
+      "doc.toggleNotesSource": () => useDocModeStore.getState().toggleNotesSource(),
     }),
     [
       activeId,

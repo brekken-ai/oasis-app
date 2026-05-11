@@ -13,6 +13,7 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
 import { useVaultStore } from "./vaultStore";
+import { useDocModeStore } from "./docModeStore";
 
 // ReadResult tagged enum — same shape as declared in vaultStore.ts (not
 // exported from there, so we declare it locally here).
@@ -55,6 +56,9 @@ export const useOpenFileStore = create<OpenFileState>((set) => ({
 
       if (result.kind === "text") {
         set({ contents: result.content, loading: false });
+        // Set initial mode based on file extension.
+        // .md files start in notes mode; all others start in source mode.
+        useDocModeStore.getState().setMode(relPath.endsWith(".md") ? "notes" : "source");
       } else if (result.kind === "binary") {
         set({
           error: `Cannot display binary file (${result.size} bytes).`,

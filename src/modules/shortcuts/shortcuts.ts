@@ -24,7 +24,10 @@ export type ShortcutId =
   | "sidebar.toggle"
   | "vault.quickSwitcher"
   | "vault.search"
-  | "vault.dailyNote";
+  | "vault.dailyNote"
+  | "doc.notesMode"
+  | "doc.sourceMode"
+  | "doc.toggleNotesSource";
 
 export type ShortcutGroup =
   | "General"
@@ -33,7 +36,8 @@ export type ShortcutGroup =
   | "Search"
   | "AI"
   | "View"
-  | "Vault";
+  | "Vault"
+  | "Doc";
 
 export type KeyBinding = {
   key: string;
@@ -171,6 +175,27 @@ export const SHORTCUTS: Shortcut[] = [
     group: "Vault",
     defaultBindings: [{ [MOD_PROP]: true, key: "d" }],
   },
+  // Doc pane mode shortcuts.
+  // Cmd+1/2 and Cmd+E are already taken by tab.selectByIndex and tab.newEditor
+  // respectively, so we use Cmd+Shift+1 / Cmd+Shift+2 / Cmd+Shift+E.
+  {
+    id: "doc.notesMode",
+    label: "Doc pane: Notes mode",
+    group: "Doc",
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "1" }],
+  },
+  {
+    id: "doc.sourceMode",
+    label: "Doc pane: Source mode",
+    group: "Doc",
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "2" }],
+  },
+  {
+    id: "doc.toggleNotesSource",
+    label: "Doc pane: Toggle Notes/Source",
+    group: "Doc",
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "e" }],
+  },
 ];
 
 export const SHORTCUT_GROUPS: ShortcutGroup[] = [
@@ -181,6 +206,7 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
   "Search",
   "AI",
   "Vault",
+  "Doc",
 ];
 
 /**

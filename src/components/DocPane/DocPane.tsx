@@ -1,25 +1,33 @@
 // src/components/DocPane/DocPane.tsx
 //
-// Shell component for the doc (notes) pane. For M3 this is the primary
-// integration point: it renders NotesMode for .md files. Source/Preview
-// mode switching ships in M5.
+// Shell component for the doc (notes) pane.
 //
-// Tag clicks: dispatch to vaultStore.setTagFilter if it exists (M4 wires
-// real filtering); otherwise no-op.
+// Renders ModeBar above the body. Dispatches on docModeStore.mode:
+//   "notes"   → NotesMode (rendered markdown)
+//   "source"  → SourceMode (CodeMirror editor)
+//   "preview" → placeholder (ships in M5/B)
 //
-// Wikilink clicks: resolve target via resolveByName, then open via
-// openFileStore.open if a match is found.
+// When the active file is not .md, mode is forced to "source" (enforced
+// in openFileStore.open; ModeBar disables the Notes button independently).
+//
+// Tag clicks dispatch to vaultStore.setTagFilter.
+// Wikilink clicks resolve the target via resolveByName, then open via
+// openFileStore.open.
 
 import { useOpenFileStore } from "@/state/openFileStore";
 import { useVaultStore } from "@/state/vaultStore";
+import { useDocModeStore } from "@/state/docModeStore";
 import { resolveByName } from "@/markdown/resolveLink";
 import { NotesMode } from "./NotesMode";
+import { SourceMode } from "./SourceMode";
+import { ModeBar } from "./ModeBar";
 import styles from "./DocPane.module.css";
 
 export function DocPane() {
   const path = useOpenFileStore((s) => s.path);
   const open = useOpenFileStore((s) => s.open);
   const files = useVaultStore((s) => s.files);
+  const mode = useDocModeStore((s) => s.mode);
 
   const handleTagClick = (tag: string) => {
     useVaultStore.getState().setTagFilter(tag);
@@ -34,22 +42,31 @@ export function DocPane() {
 
   const isMarkdown = path?.endsWith(".md") ?? false;
 
+  function renderBody() {
+    if (mode === "notes" && isMarkdown) {
+      return (
+        <NotesMode
+          onTagClick={handleTagClick}
+          onWikilinkClick={handleWikilinkClick}
+        />
+      );
+    }
+    if (mode === "source" || !isMarkdown) {
+      return <SourceMode />;
+    }
+    // mode === "preview" (M5/B)
+    return (
+      <p className={styles.muted}>
+        Preview mode ships in M5/B. Switch to Notes or Source.
+      </p>
+    );
+  }
+
   return (
     <div className={styles.docPane}>
       <div className={styles.header}>{path ?? "No file open"}</div>
-      <div className={styles.body}>
-        {isMarkdown ? (
-          <NotesMode
-            onTagClick={handleTagClick}
-            onWikilinkClick={handleWikilinkClick}
-          />
-        ) : (
-          <p className={styles.muted}>
-            Source and Preview modes ship in M5. Open a .md file to see it
-            rendered here.
-          </p>
-        )}
-      </div>
+      <ModeBar />
+      <div className={styles.body}>{renderBody()}</div>
     </div>
   );
 }
