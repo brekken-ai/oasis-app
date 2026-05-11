@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/resizable";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { VaultPicker } from "@/components/VaultPicker/VaultPicker";
+import { DocPane } from "@/components/DocPane/DocPane";
 import { cn } from "@/lib/utils";
 import {
   EditorStack,
@@ -39,6 +40,7 @@ import {
 import { ThemeProvider } from "@/modules/theme";
 import { UpdaterDialog } from "@/modules/updater";
 import { getLastVault, setLastVault } from "@/state/appPrefs";
+import { useOpenFileStore } from "@/state/openFileStore";
 import { useVaultStore } from "@/state/vaultStore";
 import { useVaultWatcher } from "@/hooks/useVaultWatcher";
 import { homeDir } from "@tauri-apps/api/path";
@@ -155,6 +157,10 @@ export default function App() {
   const isTerminalTab = activeTab?.kind === "terminal";
   const isEditorTab = activeTab?.kind === "editor";
   const isPreviewTab = activeTab?.kind === "preview";
+  // True when the active editor tab is a .md file — DocPane renders instead
+  // of the code editor. The "editor" tab entry still exists in the tab bar
+  // (showing the filename), but the workspace body shows the markdown pane.
+  const isNotesTab = isEditorTab && (activeTab as { path?: string }).path?.endsWith(".md") === true;
 
   const { explorerRoot, inheritedCwdForNewTab } = useWorkspaceCwd(
     activeTab,
@@ -297,6 +303,19 @@ export default function App() {
       // Explorer defaults to preview (pin=false); explicit actions like
       // context-menu "Open" pass pin=true for a persistent tab.
       openFileTab(path, pin ?? false);
+
+      // For .md files, also load contents into the doc pane store so
+      // DocPane / NotesMode can render them.
+      if (path.endsWith(".md")) {
+        const root = useVaultStore.getState().root;
+        if (root) {
+          // Derive vault-relative path by stripping the root prefix.
+          const relPath = path.startsWith(root)
+            ? path.slice(root.replace(/\/+$/, "").length).replace(/^\/+/, "")
+            : path;
+          void useOpenFileStore.getState().open(relPath);
+        }
+      }
     },
     [openFileTab],
   );
@@ -561,9 +580,9 @@ export default function App() {
                     <div
                       className={cn(
                         "absolute inset-0 px-3 pt-2 pb-2",
-                        !isEditorTab && "invisible pointer-events-none",
+                        (!isEditorTab || isNotesTab) && "invisible pointer-events-none",
                       )}
-                      aria-hidden={!isEditorTab}
+                      aria-hidden={!isEditorTab || isNotesTab}
                     >
                       <EditorStack
                         tabs={tabs}
@@ -572,6 +591,16 @@ export default function App() {
                         onDirtyChange={handleEditorDirty}
                         onCloseTab={disposeTab}
                       />
+                    </div>
+                    {/* DocPane: shown in-place when the active editor tab is a .md file */}
+                    <div
+                      className={cn(
+                        "absolute inset-0",
+                        !isNotesTab && "invisible pointer-events-none",
+                      )}
+                      aria-hidden={!isNotesTab}
+                    >
+                      <DocPane />
                     </div>
                     <div
                       className={cn(
