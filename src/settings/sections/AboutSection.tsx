@@ -8,7 +8,7 @@ import { arch, platform } from "@tauri-apps/plugin-os";
 import { useEffect, useState } from "react";
 import { SectionHeader } from "../components/SectionHeader";
 
-const REPO_URL = "https://github.com/brekken/oasis-app";
+const REPO_URL = "https://github.com/brekken-ai/oasis-app";
 const UPSTREAM_URL = "https://github.com/crynta/terax-ai";
 const WEBSITE = UPSTREAM_URL;
 
@@ -101,7 +101,7 @@ export function AboutSection() {
             className="inline-flex items-center gap-1.5 rounded-md text-[12px] underline-offset-2 hover:text-foreground hover:underline"
           >
             <HugeiconsIcon icon={GithubIcon} size={12} strokeWidth={1.75} />
-            brekken/oasis-app
+            brekken-ai/oasis-app
           </button>
         </dd>
         <dt className="text-muted-foreground">Website</dt>
