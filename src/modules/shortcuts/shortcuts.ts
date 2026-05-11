@@ -27,6 +27,7 @@ export type ShortcutId =
   | "vault.dailyNote"
   | "doc.notesMode"
   | "doc.sourceMode"
+  | "doc.previewMode"
   | "doc.toggleNotesSource";
 
 export type ShortcutGroup =
@@ -189,6 +190,12 @@ export const SHORTCUTS: Shortcut[] = [
     label: "Doc pane: Source mode",
     group: "Doc",
     defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "2" }],
+  },
+  {
+    id: "doc.previewMode",
+    label: "Doc pane: Preview mode",
+    group: "Doc",
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "3" }],
   },
   {
     id: "doc.toggleNotesSource",

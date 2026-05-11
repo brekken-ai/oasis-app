@@ -19,8 +19,9 @@ import {
   type SearchTarget,
 } from "@/modules/header";
 import { PreviewStack, type PreviewPaneHandle } from "@/modules/preview";
-import { openSettingsWindow } from "@/modules/settings/openSettingsWindow";
 import { usePreferencesStore } from "@/modules/settings/preferences";
+import { useSettingsStore } from "@/state/settingsStore";
+import { SettingsModal } from "@/components/Settings/SettingsModal";
 import {
   ShortcutsDialog,
   useGlobalShortcuts,
@@ -156,6 +157,12 @@ export default function App() {
   useEffect(() => {
     if (vaultRoot) void setLastVault(vaultRoot);
   }, [vaultRoot]);
+
+  // Load per-vault settings whenever the vault root changes.
+  const loadVaultSettings = useSettingsStore((s) => s.load);
+  useEffect(() => {
+    if (vaultRoot) void loadVaultSettings(vaultRoot);
+  }, [vaultRoot, loadVaultSettings]);
 
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -409,7 +416,7 @@ export default function App() {
       "pane.focusPrev": () => focusNextPaneInTab(activeId, -1),
       "search.focus": () => searchInlineRef.current?.focus(),
       "shortcuts.open": () => setShortcutsOpen((v) => !v),
-      "settings.open": () => void openSettingsWindow(),
+      "settings.open": () => useSettingsStore.getState().openModal(),
       "sidebar.toggle": toggleSidebar,
       "vault.quickSwitcher": openQuickSwitcher,
       "vault.search": openSearchPanel,
@@ -423,6 +430,7 @@ export default function App() {
       // Doc pane mode shortcuts (only meaningful when a .md file is open)
       "doc.notesMode": () => useDocModeStore.getState().setMode("notes"),
       "doc.sourceMode": () => useDocModeStore.getState().setMode("source"),
+      "doc.previewMode": () => useDocModeStore.getState().setMode("preview"),
       "doc.toggleNotesSource": () => useDocModeStore.getState().toggleNotesSource(),
     }),
     [
@@ -550,7 +558,7 @@ export default function App() {
               leafIds(activeTerminalTab.paneTree).length < MAX_PANES_PER_TAB
             }
             onOpenShortcuts={() => setShortcutsOpen(true)}
-            onOpenSettings={() => void openSettingsWindow()}
+            onOpenSettings={() => useSettingsStore.getState().openModal()}
             searchTarget={searchTarget}
             searchRef={searchInlineRef}
           />
@@ -676,6 +684,8 @@ export default function App() {
           <QuickSwitcher onOpenFile={handleOpenFile} />
           {/* SearchPanel: Cmd+Shift+F — full-text vault search via fs_grep */}
           <SearchPanel onOpenFile={handleOpenFile} />
+          {/* SettingsModal: Cmd+, — per-vault settings (M5/B) */}
+          <SettingsModal />
         </div>
         )} {/* end vaultStatus === "ready" gate */}
       </TooltipProvider>

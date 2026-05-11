@@ -4,7 +4,7 @@
 //
 // Rules:
 //   - Notes: disabled when the current file is not .md
-//   - Preview: always disabled (ships in M5/B)
+//   - Preview: enabled (shipped in M5/B)
 //   - Source: always enabled
 //   - Active mode is visually highlighted
 
@@ -34,8 +34,7 @@ export function ModeBar() {
     <div className="flex items-center gap-1 border-b border-border/60 bg-background px-3 py-1">
       {MODES.map(({ mode: m, label }) => {
         const isActive = mode === m;
-        const isDisabled =
-          (m === "notes" && !isMarkdown) || m === "preview";
+        const isDisabled = m === "notes" && !isMarkdown;
 
         return (
           <button

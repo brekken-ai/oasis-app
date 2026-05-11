@@ -20,6 +20,7 @@ import { useDocModeStore } from "@/state/docModeStore";
 import { resolveByName } from "@/markdown/resolveLink";
 import { NotesMode } from "./NotesMode";
 import { SourceMode } from "./SourceMode";
+import { PreviewMode } from "./PreviewMode";
 import { ModeBar } from "./ModeBar";
 import styles from "./DocPane.module.css";
 
@@ -54,12 +55,8 @@ export function DocPane() {
     if (mode === "source" || !isMarkdown) {
       return <SourceMode />;
     }
-    // mode === "preview" (M5/B)
-    return (
-      <p className={styles.muted}>
-        Preview mode ships in M5/B. Switch to Notes or Source.
-      </p>
-    );
+    // mode === "preview"
+    return <PreviewMode />;
   }
 
   return (
