@@ -552,7 +552,7 @@ export default function App() {
         <VaultPicker />
 
         {vaultStatus !== "ready" ? null : (
-        <div className="relative flex h-screen flex-col overflow-hidden bg-background text-foreground">
+        <div className="relative flex h-screen flex-col overflow-hidden bg-transparent text-foreground">
           <Header
             tabs={tabs}
             activeId={activeId}
@@ -588,7 +588,7 @@ export default function App() {
                 collapsible
                 collapsedSize={0}
               >
-                <div className="h-full border-r border-border/60 bg-card">
+                <div className="h-full border-r border-border/60" style={{ background: "rgba(22, 22, 22, 0.55)" }}>
                   <FileExplorer
                     rootPath={vaultRoot ?? explorerRoot}
                     onOpenFile={handleOpenFile}
@@ -645,6 +645,7 @@ export default function App() {
                               "absolute inset-0",
                               !isNotesTab && "invisible pointer-events-none",
                             )}
+                            style={{ background: "rgba(22, 22, 22, 0.75)" }}
                             aria-hidden={!isNotesTab}
                           >
                             <DocPane
@@ -676,14 +677,16 @@ export default function App() {
                     <ResizableHandle withHandle className="bg-[#262626] hover:bg-[#333333] transition-colors" />
                     <ResizablePanel defaultSize={40} minSize={25}>
                       {/* Right panel: persistent DocPane showing the last-opened .md */}
-                      <DocPane
-                        onOpenVaultFile={(relPath) => {
-                          const root = useVaultStore.getState().root;
-                          if (!root) return;
-                          const absPath = `${root.replace(/\/+$/, "")}/${relPath}`;
-                          handleOpenFile(absPath, true);
-                        }}
-                      />
+                      <div className="h-full" style={{ background: "rgba(22, 22, 22, 0.75)" }}>
+                        <DocPane
+                          onOpenVaultFile={(relPath) => {
+                            const root = useVaultStore.getState().root;
+                            if (!root) return;
+                            const absPath = `${root.replace(/\/+$/, "")}/${relPath}`;
+                            handleOpenFile(absPath, true);
+                          }}
+                        />
+                      </div>
                     </ResizablePanel>
                   </ResizablePanelGroup>
                 ) : (
@@ -730,6 +733,7 @@ export default function App() {
                           "absolute inset-0",
                           !isNotesTab && "invisible pointer-events-none",
                         )}
+                        style={{ background: "rgba(22, 22, 22, 0.75)" }}
                         aria-hidden={!isNotesTab}
                       >
                         <DocPane
