@@ -28,7 +28,6 @@ initVimGlobals();
 import { resolveLanguage } from "./lib/languageResolver";
 import { useDocument } from "./lib/useDocument";
 import { inlineCompletion } from "./lib/autocomplete/inlineExtension";
-import { onKeysChanged } from "@/modules/settings/store";
 
 export type EditorPaneHandle = {
   setQuery: (q: string) => void;
@@ -63,20 +62,9 @@ export const EditorPane = forwardRef<EditorPaneHandle, Props>(
     const editorThemeId = usePreferencesStore((s) => s.editorTheme);
     const vimMode = usePreferencesStore((s) => s.vimMode);
     const languageRef = useRef<string | null>(null);
+    // apiKey is always null — AI keyring removed in Chunk C. The inlineExtension
+    // checks hasProviderKey() and skips requests when no key is present.
     const apiKeyRef = useRef<string | null>(null);
-
-    useEffect(() => {
-      // AI keyring removed (Chunk C). Autocomplete provider key is always null;
-      // the inlineExtension will skip requests when hasProviderKey() returns false.
-      apiKeyRef.current = null;
-      let unlistenKeys: (() => void) | undefined;
-      void onKeysChanged(() => { apiKeyRef.current = null; }).then((un) => {
-        unlistenKeys = un;
-      });
-      return () => {
-        unlistenKeys?.();
-      };
-    }, []);
     const themeExt = EDITOR_THEME_EXT[editorThemeId] ?? EDITOR_THEME_EXT.atomone;
 
     // Stabilize save + onSaved via refs so the extensions array never changes
