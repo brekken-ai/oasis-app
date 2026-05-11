@@ -50,11 +50,15 @@ interface VaultState {
   files: FileEntry[];
   index: VaultIndex;
   error: string | null;
+  /** Currently active tag filter, or null if no filter is applied. */
+  tagFilter: string | null;
   openVault: (path: string) => Promise<void>;
   closeVault: () => Promise<void>;
   reindexFile: (relPath: string) => Promise<void>;
   dropFile: (relPath: string) => void;
   persist: () => Promise<void>;
+  /** Set or clear the tag filter. Pass null to clear. */
+  setTagFilter: (tag: string | null) => void;
 }
 
 // ── Store implementation ──────────────────────────────────────────────────────
@@ -65,6 +69,7 @@ export const useVaultStore = create<VaultState>((set, get) => ({
   files: [],
   index: emptyIndex(),
   error: null,
+  tagFilter: null,
 
   async openVault(path: string) {
     set({ status: "loading", error: null, root: path });
@@ -147,6 +152,10 @@ export const useVaultStore = create<VaultState>((set, get) => ({
   async persist() {
     const { root, index } = get();
     if (root) await saveIndex(root, index);
+  },
+
+  setTagFilter(tag: string | null) {
+    set({ tagFilter: tag });
   },
 }));
 

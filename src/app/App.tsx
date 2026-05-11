@@ -43,6 +43,7 @@ import { getLastVault, setLastVault } from "@/state/appPrefs";
 import { useOpenFileStore } from "@/state/openFileStore";
 import { useVaultStore } from "@/state/vaultStore";
 import { useVaultWatcher } from "@/hooks/useVaultWatcher";
+import { QuickSwitcher } from "@/components/QuickSwitcher/QuickSwitcher";
 import { homeDir } from "@tauri-apps/api/path";
 import type { SearchAddon } from "@xterm/addon-search";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -646,6 +647,9 @@ export default function App() {
           />
 
           <UpdaterDialog />
+
+          {/* QuickSwitcher: Cmd+P binding ships in M4/B; store is wired now */}
+          <QuickSwitcher onOpenFile={handleOpenFile} />
         </div>
         )} {/* end vaultStatus === "ready" gate */}
       </TooltipProvider>

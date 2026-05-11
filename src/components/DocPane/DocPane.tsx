@@ -22,12 +22,7 @@ export function DocPane() {
   const files = useVaultStore((s) => s.files);
 
   const handleTagClick = (tag: string) => {
-    // M4 will wire real tag filtering. Until then, no-op — setTagFilter does
-    // not exist on VaultState yet. Cast through unknown to avoid TS error.
-    const store = useVaultStore.getState() as unknown as Record<string, unknown>;
-    if (typeof store.setTagFilter === "function") {
-      (store.setTagFilter as (tag: string) => void)(tag);
-    }
+    useVaultStore.getState().setTagFilter(tag);
   };
 
   const handleWikilinkClick = (target: string) => {

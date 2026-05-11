@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/context-menu";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useVaultStore } from "@/state/vaultStore";
 import {
   Cancel01Icon,
   FileAddIcon,
@@ -57,6 +58,11 @@ export function FileExplorer({
   onAttachToAgent,
 }: Props) {
   const tree = useFileTree(rootPath, { onPathRenamed, onPathDeleted });
+  const tagFilter = useVaultStore((s) => s.tagFilter);
+  const tagFilteredPaths = useVaultStore((s) =>
+    s.tagFilter ? (s.index.tags[s.tagFilter] ?? []) : null,
+  );
+  const vaultRoot = useVaultStore((s) => s.root);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchHit[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -302,7 +308,71 @@ export function FileExplorer({
         </motion.div>
       )}
 
-      {query.trim() ? (
+      {/* Tag filter badge — shown when a tag filter is active */}
+      {tagFilter && (
+        <div className="flex shrink-0 items-center gap-1 border-b border-border/60 px-2 py-1">
+          <span className="flex-1 truncate text-[11px] text-muted-foreground">
+            Filtering by{" "}
+            <span className="font-medium text-foreground">#{tagFilter}</span>
+          </span>
+          <button
+            type="button"
+            onClick={() => useVaultStore.getState().setTagFilter(null)}
+            className="rounded p-0.5 text-muted-foreground hover:bg-accent hover:text-foreground"
+            aria-label="Clear tag filter"
+          >
+            <HugeiconsIcon icon={Cancel01Icon} size={11} strokeWidth={2} />
+          </button>
+        </div>
+      )}
+
+      {/* Tag filter results — flat list of matching vault files */}
+      {tagFilter && tagFilteredPaths ? (
+        <ScrollArea className="min-h-0 flex-1">
+          <div className="py-1">
+            {tagFilteredPaths.length === 0 ? (
+              <div className="px-3 py-2 text-[11px] text-muted-foreground">
+                No files tagged #{tagFilter}
+              </div>
+            ) : (
+              tagFilteredPaths.map((relPath) => {
+                const absPath = vaultRoot ? `${vaultRoot}/${relPath}` : relPath;
+                const name = relPath.split("/").pop() ?? relPath;
+                const dir = relPath.includes("/")
+                  ? relPath.slice(0, relPath.lastIndexOf("/"))
+                  : "";
+                const url = fileIconUrl(name);
+                return (
+                  <button
+                    key={relPath}
+                    type="button"
+                    onClick={() => onOpenFile(absPath)}
+                    className="flex w-full items-center gap-1.5 px-2 py-1 text-left text-xs hover:bg-accent"
+                    title={relPath}
+                  >
+                    {url ? (
+                      <img src={url} alt="" className="size-3.5 shrink-0" />
+                    ) : (
+                      <HugeiconsIcon
+                        icon={Folder01Icon}
+                        size={13}
+                        strokeWidth={1.75}
+                        className="shrink-0 text-muted-foreground"
+                      />
+                    )}
+                    <span className="truncate">{name}</span>
+                    {dir && (
+                      <span className="ml-auto truncate text-[10px] text-muted-foreground">
+                        {dir}
+                      </span>
+                    )}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </ScrollArea>
+      ) : query.trim() ? (
         <ScrollArea className="min-h-0 flex-1">
           <div className="py-1">
             {searching && results.length === 0 ? (
