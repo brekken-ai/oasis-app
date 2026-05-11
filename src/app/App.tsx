@@ -44,6 +44,10 @@ import { useOpenFileStore } from "@/state/openFileStore";
 import { useVaultStore } from "@/state/vaultStore";
 import { useVaultWatcher } from "@/hooks/useVaultWatcher";
 import { QuickSwitcher } from "@/components/QuickSwitcher/QuickSwitcher";
+import { SearchPanel } from "@/components/SearchPanel/SearchPanel";
+import { useQuickSwitcherStore } from "@/state/quickSwitcherStore";
+import { useSearchStore } from "@/state/searchStore";
+import { openOrCreateDailyNote } from "@/lib/dailyNote";
 import { homeDir } from "@tauri-apps/api/path";
 import type { SearchAddon } from "@xterm/addon-search";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -386,6 +390,9 @@ export default function App() {
     handleClose(activeId);
   }, [activeId, closeActivePane, handleClose]);
 
+  const openQuickSwitcher = useQuickSwitcherStore((s) => s.openModal);
+  const openSearchPanel = useSearchStore((s) => s.openPanel);
+
   const shortcutHandlers = useMemo<ShortcutHandlers>(
     () => ({
       "tab.new": openNewTab,
@@ -403,6 +410,15 @@ export default function App() {
       "shortcuts.open": () => setShortcutsOpen((v) => !v),
       "settings.open": () => void openSettingsWindow(),
       "sidebar.toggle": toggleSidebar,
+      "vault.quickSwitcher": openQuickSwitcher,
+      "vault.search": openSearchPanel,
+      "vault.dailyNote": () => {
+        void openOrCreateDailyNote().then((relPath) => {
+          const root = useVaultStore.getState().root;
+          if (!root) return;
+          handleOpenFile(`${root.replace(/\/+$/, "")}/${relPath}`);
+        });
+      },
     }),
     [
       activeId,
@@ -414,6 +430,9 @@ export default function App() {
       splitActivePaneInActiveTab,
       focusNextPaneInTab,
       toggleSidebar,
+      openQuickSwitcher,
+      openSearchPanel,
+      handleOpenFile,
     ],
   );
 
@@ -648,8 +667,10 @@ export default function App() {
 
           <UpdaterDialog />
 
-          {/* QuickSwitcher: Cmd+P binding ships in M4/B; store is wired now */}
+          {/* QuickSwitcher: Cmd+P — global keyboard shortcut wired in M4/B */}
           <QuickSwitcher onOpenFile={handleOpenFile} />
+          {/* SearchPanel: Cmd+Shift+F — full-text vault search via fs_grep */}
+          <SearchPanel onOpenFile={handleOpenFile} />
         </div>
         )} {/* end vaultStatus === "ready" gate */}
       </TooltipProvider>

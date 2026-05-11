@@ -21,7 +21,10 @@ export type ShortcutId =
   | "ai.askSelection"
   | "shortcuts.open"
   | "settings.open"
-  | "sidebar.toggle";
+  | "sidebar.toggle"
+  | "vault.quickSwitcher"
+  | "vault.search"
+  | "vault.dailyNote";
 
 export type ShortcutGroup =
   | "General"
@@ -29,7 +32,8 @@ export type ShortcutGroup =
   | "Panes"
   | "Search"
   | "AI"
-  | "View";
+  | "View"
+  | "Vault";
 
 export type KeyBinding = {
   key: string;
@@ -69,7 +73,7 @@ export const SHORTCUTS: Shortcut[] = [
     id: "tab.newPreview",
     label: "New preview tab",
     group: "Tabs",
-    defaultBindings: [{ [MOD_PROP]: true, key: "p" }],
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "p" }],
   },
   {
     id: "tab.newEditor",
@@ -87,13 +91,13 @@ export const SHORTCUTS: Shortcut[] = [
     id: "pane.splitRight",
     label: "Split pane right",
     group: "Panes",
-    defaultBindings: [{ [MOD_PROP]: true, key: "d" }],
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "\\" }],
   },
   {
     id: "pane.splitDown",
     label: "Split pane down",
     group: "Panes",
-    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "d" }],
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "-" }],
   },
   {
     id: "pane.focusNext",
@@ -149,6 +153,24 @@ export const SHORTCUTS: Shortcut[] = [
     group: "View",
     defaultBindings: [{ [MOD_PROP]: true, key: "b" }],
   },
+  {
+    id: "vault.quickSwitcher",
+    label: "Open quick switcher",
+    group: "Vault",
+    defaultBindings: [{ [MOD_PROP]: true, key: "p" }],
+  },
+  {
+    id: "vault.search",
+    label: "Full-text vault search",
+    group: "Vault",
+    defaultBindings: [{ [MOD_PROP]: true, shift: true, key: "f" }],
+  },
+  {
+    id: "vault.dailyNote",
+    label: "Open today's daily note",
+    group: "Vault",
+    defaultBindings: [{ [MOD_PROP]: true, key: "d" }],
+  },
 ];
 
 export const SHORTCUT_GROUPS: ShortcutGroup[] = [
@@ -158,6 +180,7 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
   "View",
   "Search",
   "AI",
+  "Vault",
 ];
 
 /**
