@@ -28,6 +28,10 @@ import { fileIconUrl, folderIconUrl } from "./lib/iconResolver";
 import { COMPACT_CONTENT, COMPACT_ITEM } from "./lib/menuItemClass";
 import { useFileTree } from "./lib/useFileTree";
 
+// Stable empty-array reference for the Zustand selector fallback.
+// Returning a fresh `[]` from a selector triggers infinite re-renders.
+const EMPTY_PATHS: readonly string[] = [];
+
 type SearchHit = {
   path: string;
   rel: string;
@@ -59,8 +63,9 @@ export function FileExplorer({
 }: Props) {
   const tree = useFileTree(rootPath, { onPathRenamed, onPathDeleted });
   const tagFilter = useVaultStore((s) => s.tagFilter);
+  // Stable empty-array fallback — see BacklinksPanel.tsx for the same fix.
   const tagFilteredPaths = useVaultStore((s) =>
-    s.tagFilter ? (s.index.tags[s.tagFilter] ?? []) : null,
+    s.tagFilter ? (s.index.tags[s.tagFilter] ?? EMPTY_PATHS) : null,
   );
   const vaultRoot = useVaultStore((s) => s.root);
   const [query, setQuery] = useState("");

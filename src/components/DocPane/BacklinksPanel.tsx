@@ -8,11 +8,16 @@ import { useVaultStore } from "@/state/vaultStore";
 import { useOpenFileStore } from "@/state/openFileStore";
 import styles from "./DocPane.module.css";
 
+// Stable empty-array reference. Returning a fresh `[]` from a Zustand selector
+// makes every selector call look like a state change, which triggers an
+// infinite render loop. Always use this for the "no backlinks" case.
+const EMPTY: readonly string[] = [];
+
 export function BacklinksPanel() {
   const path = useOpenFileStore((s) => s.path);
   const open = useOpenFileStore((s) => s.open);
   const backlinks = useVaultStore((s) =>
-    path ? (s.index.backlinks[path] ?? []) : [],
+    path ? (s.index.backlinks[path] ?? EMPTY) : EMPTY,
   );
 
   if (!path) return null;
