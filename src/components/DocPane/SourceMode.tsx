@@ -33,6 +33,7 @@ import {
 } from "@/modules/editor/lib/extensions";
 import { initVimGlobals, vimHandlersExtension } from "@/modules/editor/lib/vim";
 import { vaultCompletions } from "@/markdown/completions";
+import { livePreview } from "@/markdown/livePreview";
 
 const AUTOSAVE_DEBOUNCE_MS = 300;
 
@@ -140,6 +141,7 @@ export function SourceMode() {
       })),
       ...buildSharedExtensions(),
       markdown(),
+      livePreview(),
       vaultCompletions(),
       keymap.of([
         {
