@@ -8,8 +8,16 @@ import DOMPurify from "dompurify";
 
 const ALLOWED_SCHEMES = ["http", "https", "vault", "oasis", "mailto", "tel"];
 
+// Allow either:
+//   1. An explicit allowed scheme (http:, vault:, oasis:, etc.)
+//   2. A relative path with no colon — e.g. `../decisions/foo.md`, `note.md`,
+//      `#heading`, `/absolute/from/vault`. These can't carry a dangerous
+//      protocol because there's no scheme delimiter.
+//
+// The `[^:]*$` branch is anchored end-to-end so anything containing a `:`
+// must match an explicit allowed scheme above.
 const ALLOWED_URI_REGEXP = new RegExp(
-  `^(?:${ALLOWED_SCHEMES.join("|")}):`,
+  `^(?:(?:${ALLOWED_SCHEMES.join("|")}):|[^:]*$)`,
   "i",
 );
 
