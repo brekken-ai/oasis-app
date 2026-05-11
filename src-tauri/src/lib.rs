@@ -90,21 +90,6 @@ pub fn run() {
     apply_wayland_webkit_workaround();
 
     tauri::Builder::default()
-        .setup(|app| {
-            #[cfg(target_os = "macos")]
-            {
-                use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial, NSVisualEffectState};
-                if let Some(window) = app.get_webview_window("main") {
-                    let _ = apply_vibrancy(
-                        &window,
-                        NSVisualEffectMaterial::HudWindow,
-                        Some(NSVisualEffectState::Active),
-                        None,
-                    );
-                }
-            }
-            Ok(())
-        })
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         // Skip restoring VISIBLE — frontend calls window.show() after first

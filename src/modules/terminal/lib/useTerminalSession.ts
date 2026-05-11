@@ -71,9 +71,6 @@ function ensureSession(leafId: number, initialCwd?: string): Session {
     cursorBlink: true,
     cursorStyle: "bar",
     cursorInactiveStyle: "outline",
-    // Required for the terminal background to be transparent (rgba(0,0,0,0))
-    // so the macOS vibrancy layer shows through the canvas.
-    allowTransparency: true,
     // 5k lines × 80 cols × ~16 B per cell ≈ 6 MB per leaf. 10k doubled
     // that for output almost no one scrolls back to. Keep this knob in
     // mind if/when we add a "scrollback" preference.

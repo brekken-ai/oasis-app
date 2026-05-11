@@ -9,25 +9,25 @@ import type { ITheme } from "@xterm/xterm";
  * stays curated — globals.css is grayscale, it has no semantic color palette.
  */
 
-/** Tokyo Night ANSI 16 palette — matches the app's vibrancy-unified dark theme. */
+/** Curated ANSI 16 palette, tuned for shadcn's dark surface. */
 const ansi = {
-  black: "#15161e",
-  red: "#f7768e",
-  green: "#9ece6a",
-  yellow: "#e0af68",
-  blue: "#7aa2f7",
-  magenta: "#bb9af7",
-  cyan: "#7dcfff",
-  white: "#a9b1d6",
+  black: "#18181b",
+  red: "#ef4444",
+  green: "#22c55e",
+  yellow: "#eab308",
+  blue: "#3b82f6",
+  magenta: "#a855f7",
+  cyan: "#06b6d4",
+  white: "#e4e4e7",
 
-  brightBlack: "#414868",
-  brightRed: "#f7768e",
-  brightGreen: "#9ece6a",
-  brightYellow: "#e0af68",
-  brightBlue: "#7aa2f7",
-  brightMagenta: "#bb9af7",
-  brightCyan: "#7dcfff",
-  brightWhite: "#c0caf5",
+  brightBlack: "#52525b",
+  brightRed: "#f87171",
+  brightGreen: "#4ade80",
+  brightYellow: "#facc15",
+  brightBlue: "#60a5fa",
+  brightMagenta: "#c084fc",
+  brightCyan: "#22d3ee",
+  brightWhite: "#fafafa",
 } as const;
 
 /** Semantic palette reused by the code editor. Kept in one place so the
@@ -54,9 +54,7 @@ export const syntaxPalette = {
 export function buildTerminalTheme(): ITheme {
   const t = readAppTokens();
   return {
-    // Transparent so the vibrancy layer shows through the terminal canvas.
-    // allowTransparency must be true on the Terminal instance for this to work.
-    background: "rgba(0,0,0,0)",
+    background: t.background,
     foreground: t.foreground,
     cursor: t.foreground,
     cursorAccent: t.background,
