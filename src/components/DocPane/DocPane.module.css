@@ -14,13 +14,13 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #111;
-  color: #ddd;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 .header {
   padding: 8px 14px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--border);
   font-size: 11px;
   color: #888;
   font-family: ui-monospace, monospace;
@@ -62,7 +62,7 @@
 .markdownBody h3 {
   font-size: 15px;
   margin: 14px 0 6px;
-  color: #cfd;
+  color: var(--foreground);
   font-weight: 500;
 }
 
@@ -82,7 +82,7 @@
 
 /* Wikilinks use a green tint to visually distinguish from plain hyperlinks */
 .markdownBody :global(.wikilink) {
-  color: #9fcf6f;
+  color: #98c379;
 }
 
 .markdownBody :global(.wikilink-unresolved) {
@@ -94,8 +94,8 @@
 .markdownBody :global(.tag-chip) {
   display: inline-block;
   padding: 1px 7px;
-  background: #1a2e1a;
-  color: #9fcf6f;
+  background: #1f2e1f;
+  color: #98c379;
   border-radius: 999px;
   font-size: 12px;
   margin: 0 2px;
@@ -105,12 +105,12 @@
 
 /* Inline code */
 .markdownBody code {
-  background: #1a1a1a;
+  background: var(--muted);
   padding: 1px 6px;
   border-radius: 3px;
   font-size: 13px;
   font-family: ui-monospace, monospace;
-  color: #7ab8e0;
+  color: #98c379;
 }
 
 /* Hover affordance — inline code that looks like a vault path is clickable.
@@ -125,7 +125,7 @@
 
 /* Code blocks */
 .markdownBody pre {
-  background: #0d0d0d;
+  background: var(--card);
   padding: 12px;
   border-radius: 6px;
   overflow: auto;
@@ -148,12 +148,12 @@
 }
 
 .markdownBody thead {
-  background: #161616;
+  background: var(--background);
 }
 
 .markdownBody th,
 .markdownBody td {
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border);
   padding: 6px 12px;
   text-align: left;
   vertical-align: top;
@@ -182,7 +182,7 @@
 
 /* Blockquotes (non-callout) */
 .markdownBody blockquote:not(:global(.callout)) {
-  border-left: 3px solid #2a2a2a;
+  border-left: 3px solid var(--border);
   padding: 4px 14px;
   margin: 12px 0;
   color: #bbb;
@@ -191,7 +191,7 @@
 /* Horizontal rule */
 .markdownBody hr {
   border: none;
-  border-top: 1px solid #2a2a2a;
+  border-top: 1px solid var(--border);
   margin: 20px 0;
 }
 
@@ -216,11 +216,11 @@
 
 /* Embedded notes */
 .markdownBody :global(.embed) {
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 8px 14px;
   margin: 8px 0;
-  background: #161616;
+  background: var(--background);
 }
 
 .markdownBody :global(.embed-unresolved) {
@@ -239,8 +239,8 @@
 
 .properties {
   margin: 0 0 18px;
-  background: #161616;
-  border: 1px solid #222;
+  background: var(--background);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 8px 12px;
 }
@@ -278,8 +278,8 @@
 
 /* Tag chips inside the Properties panel */
 .tagChipButton {
-  background: #1a2e1a;
-  color: #9fcf6f;
+  background: #1f2e1f;
+  color: #98c379;
   border: 1px solid #2a4a2a;
   border-radius: 999px;
   padding: 1px 9px;
@@ -297,7 +297,7 @@
 .backlinks {
   margin-top: 28px;
   padding-top: 16px;
-  border-top: 1px solid #222;
+  border-top: 1px solid var(--border);
 }
 
 .backlinks h3 {

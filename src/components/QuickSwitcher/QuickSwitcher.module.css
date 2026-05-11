@@ -16,8 +16,8 @@
 .panel {
   width: 560px;
   max-width: calc(100vw - 40px);
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
   overflow: hidden;
@@ -31,7 +31,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--border);
 }
 
 .inputIcon {
@@ -47,7 +47,7 @@
   color: #ddd;
   font-size: 14px;
   line-height: 1.4;
-  caret-color: #9fcf6f;
+  caret-color: #98c379;
 }
 
 .input::placeholder {
@@ -87,8 +87,8 @@
 
 .item:hover,
 .itemActive {
-  background: #2a2a2a;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-foreground);
 }
 
 .itemIcon {
@@ -108,7 +108,7 @@
 /* Highlight matched chars */
 .itemName mark {
   background: none;
-  color: #9fcf6f;
+  color: #98c379;
   font-weight: 600;
 }
 
