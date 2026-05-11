@@ -1,6 +1,6 @@
 mod modules;
 
-use modules::{fs, net, pty, secrets, shell};
+use modules::{fs, net, pty, shell};
 use tauri::{Emitter, Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_window_state::StateFlags;
 
@@ -111,7 +111,6 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .manage(pty::PtyState::default())
         .manage(shell::ShellState::default())
-        .manage(secrets::SecretsState::default())
         .invoke_handler(tauri::generate_handler![
             pty::pty_open,
             pty::pty_write,
@@ -138,10 +137,6 @@ pub fn run() {
             shell::shell_bg_kill,
             shell::shell_bg_list,
             open_settings_window,
-            secrets::secrets_get,
-            secrets::secrets_set,
-            secrets::secrets_delete,
-            secrets::secrets_get_all,
             net::http_ping,
         ])
         .run(tauri::generate_context!())
