@@ -3,14 +3,6 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 
-/* macOS vibrancy: the Tauri window is transparent; let the blur show through.
- * Inner containers in App.tsx provide the dark tint where needed. */
-html,
-body,
-#root {
-  background: transparent !important;
-}
-
 @source "../../node_modules/streamdown/dist/index.js";
 
 @custom-variant dark (&:is(.dark *));

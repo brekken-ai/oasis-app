@@ -76,9 +76,6 @@ function ensureSession(leafId: number, initialCwd?: string): Session {
     // mind if/when we add a "scrollback" preference.
     scrollback: 5_000,
     allowProposedApi: true,
-    // Required for the macOS vibrancy blur to show through the terminal.
-    // Without this, xterm paints an opaque canvas over the transparent bg.
-    allowTransparency: true,
   });
 
   const fitAddon = new FitAddon();

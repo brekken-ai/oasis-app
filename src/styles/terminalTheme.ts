@@ -54,7 +54,7 @@ export const syntaxPalette = {
 export function buildTerminalTheme(): ITheme {
   const t = readAppTokens();
   return {
-    background: "rgba(0,0,0,0)",
+    background: t.background,
     foreground: t.foreground,
     cursor: t.foreground,
     cursorAccent: t.background,
