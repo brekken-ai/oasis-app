@@ -1,9 +1,3 @@
-import { AgentStatusPill } from "@/modules/ai/components/AgentStatusPill";
-import {
-  AiOpenButton,
-  AiStatusBarControls,
-} from "@/modules/ai/components/AiStatusBarControls";
-import { useChatStore } from "@/modules/ai";
 import { Globe02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CwdBreadcrumb } from "./CwdBreadcrumb";
@@ -13,9 +7,6 @@ type Props = {
   filePath?: string | null;
   home: string | null;
   onCd: (path: string) => void;
-  onOpenMini: () => void;
-  /** Only rendered when the AI panel is open and a key is loaded. */
-  hasComposer: boolean;
   /** When set, render a one-click "Open preview" chip pointing at this URL. */
   detectedPreviewUrl?: string | null;
   onOpenPreview?: () => void;
@@ -26,14 +17,9 @@ export function StatusBar({
   filePath,
   home,
   onCd,
-  onOpenMini,
-  hasComposer,
   detectedPreviewUrl,
   onOpenPreview,
 }: Props) {
-  const panelOpen = useChatStore((s) => s.panelOpen);
-  const openPanel = useChatStore((s) => s.openPanel);
-
   return (
     <footer className="flex h-8 shrink-0 items-center justify-between gap-3 border-t border-border/60 bg-card/60 px-3 text-[11px]">
       <div className="min-w-0 flex-1 truncate">
@@ -59,12 +45,6 @@ export function StatusBar({
             </span>
           </button>
         ) : null}
-        <AgentStatusPill onClick={onOpenMini} />
-        {panelOpen && hasComposer ? (
-          <AiStatusBarControls />
-        ) : (
-          <AiOpenButton onOpen={openPanel} />
-        )}
       </div>
     </footer>
   );

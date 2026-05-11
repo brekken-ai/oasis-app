@@ -1,13 +1,17 @@
 import { emit, listen, type UnlistenFn } from "@tauri-apps/api/event";
 import { LazyStore } from "@tauri-apps/plugin-store";
-import {
-  DEFAULT_AUTOCOMPLETE_MODEL,
-  DEFAULT_MODEL_ID,
-  LMSTUDIO_DEFAULT_BASE_URL,
-  type AutocompleteProviderId,
-  type ModelId,
-} from "@/modules/ai/config";
 import type { KeyBinding, ShortcutId } from "@/modules/shortcuts/shortcuts";
+
+// Inlined from the former @/modules/ai/config — kept here so settings/store
+// compiles without the AI module.
+const DEFAULT_MODEL_ID = "claude-sonnet-4-5";
+const DEFAULT_AUTOCOMPLETE_MODEL: Record<string, string> = {
+  cerebras: "llama-3.3-70b",
+  groq: "llama-3.3-70b-versatile",
+  openai: "gpt-4o-mini",
+  lmstudio: "",
+};
+const LMSTUDIO_DEFAULT_BASE_URL = "http://localhost:1234/v1";
 
 export type ThemePref = "system" | "light" | "dark";
 
@@ -39,13 +43,13 @@ export const EDITOR_THEME_LABELS: Record<EditorThemeId, string> = {
 
 export type Preferences = {
   theme: ThemePref;
-  defaultModelId: ModelId;
+  defaultModelId: string;
   editorTheme: EditorThemeId;
   customInstructions: string;
   autostart: boolean;
   restoreWindowState: boolean;
   autocompleteEnabled: boolean;
-  autocompleteProvider: AutocompleteProviderId;
+  autocompleteProvider: string;
   autocompleteModelId: string;
   lmstudioBaseURL: string;
   vimMode: boolean;
@@ -104,7 +108,7 @@ export async function loadPreferences(): Promise<Preferences> {
   return {
     theme: get<ThemePref>(KEY_THEME) ?? DEFAULT_PREFERENCES.theme,
     defaultModelId:
-      get<ModelId>(KEY_DEFAULT_MODEL) ?? DEFAULT_PREFERENCES.defaultModelId,
+      get<string>(KEY_DEFAULT_MODEL) ?? DEFAULT_PREFERENCES.defaultModelId,
     editorTheme:
       get<EditorThemeId>(KEY_EDITOR_THEME) ?? DEFAULT_PREFERENCES.editorTheme,
     customInstructions:
@@ -118,7 +122,7 @@ export async function loadPreferences(): Promise<Preferences> {
       get<boolean>(KEY_AUTOCOMPLETE_ENABLED) ??
       DEFAULT_PREFERENCES.autocompleteEnabled,
     autocompleteProvider:
-      get<AutocompleteProviderId>(KEY_AUTOCOMPLETE_PROVIDER) ??
+      get<string>(KEY_AUTOCOMPLETE_PROVIDER) ??
       DEFAULT_PREFERENCES.autocompleteProvider,
     autocompleteModelId:
       get<string>(KEY_AUTOCOMPLETE_MODEL) ??
@@ -136,7 +140,7 @@ export async function setTheme(value: ThemePref): Promise<void> {
   await writePref(KEY_THEME, value);
 }
 
-export async function setDefaultModel(value: ModelId): Promise<void> {
+export async function setDefaultModel(value: string): Promise<void> {
   await writePref(KEY_DEFAULT_MODEL, value);
 }
 
@@ -161,7 +165,7 @@ export async function setAutocompleteEnabled(value: boolean): Promise<void> {
 }
 
 export async function setAutocompleteProvider(
-  value: AutocompleteProviderId
+  value: string
 ): Promise<void> {
   await writePref(KEY_AUTOCOMPLETE_PROVIDER, value);
 }

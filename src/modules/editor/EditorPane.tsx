@@ -28,7 +28,6 @@ initVimGlobals();
 import { resolveLanguage } from "./lib/languageResolver";
 import { useDocument } from "./lib/useDocument";
 import { inlineCompletion } from "./lib/autocomplete/inlineExtension";
-import { getKey } from "@/modules/ai/lib/keyring";
 import { onKeysChanged } from "@/modules/settings/store";
 
 export type EditorPaneHandle = {
@@ -67,30 +66,15 @@ export const EditorPane = forwardRef<EditorPaneHandle, Props>(
     const apiKeyRef = useRef<string | null>(null);
 
     useEffect(() => {
-      let cancelled = false;
-      const refresh = async () => {
-        const provider = usePreferencesStore.getState().autocompleteProvider;
-        if (provider === "lmstudio") {
-          apiKeyRef.current = null;
-          return;
-        }
-        const k = await getKey(provider);
-        if (!cancelled) apiKeyRef.current = k;
-      };
-      void refresh();
+      // AI keyring removed (Chunk C). Autocomplete provider key is always null;
+      // the inlineExtension will skip requests when hasProviderKey() returns false.
+      apiKeyRef.current = null;
       let unlistenKeys: (() => void) | undefined;
-      void onKeysChanged(() => void refresh()).then((un) => {
+      void onKeysChanged(() => { apiKeyRef.current = null; }).then((un) => {
         unlistenKeys = un;
       });
-      const unsubPrefs = usePreferencesStore.subscribe((state, prev) => {
-        if (state.autocompleteProvider !== prev.autocompleteProvider) {
-          void refresh();
-        }
-      });
       return () => {
-        cancelled = true;
         unlistenKeys?.();
-        unsubPrefs();
       };
     }, []);
     const themeExt = EDITOR_THEME_EXT[editorThemeId] ?? EDITOR_THEME_EXT.atomone;

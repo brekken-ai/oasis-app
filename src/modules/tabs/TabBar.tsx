@@ -12,7 +12,6 @@ import { fileIconUrl } from "@/modules/explorer/lib/iconResolver";
 import {
   Cancel01Icon,
   ComputerTerminal02Icon,
-  GitCompareIcon,
   Globe02Icon,
   PencilEdit02Icon,
   PlusSignIcon,
@@ -196,16 +195,6 @@ function TabIcon({ tab }: { tab: Tab }) {
       />
     );
   }
-  if (tab.kind === "ai-diff") {
-    return (
-      <HugeiconsIcon
-        icon={GitCompareIcon}
-        size={14}
-        strokeWidth={2}
-        className="shrink-0 text-yellow-600 dark:text-yellow-400"
-      />
-    );
-  }
   return (
     <HugeiconsIcon
       icon={ComputerTerminal02Icon}
@@ -219,7 +208,6 @@ function TabIcon({ tab }: { tab: Tab }) {
 function labelFor(t: Tab): string {
   if (t.kind === "editor") return t.title;
   if (t.kind === "preview") return t.title;
-  if (t.kind === "ai-diff") return t.title;
   if (!t.cwd) return t.title;
   const parts = t.cwd.split(/[\\/]/).filter(Boolean);
   return parts.length ? parts[parts.length - 1] : "/";
