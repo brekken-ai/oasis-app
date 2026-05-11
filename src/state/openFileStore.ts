@@ -56,9 +56,10 @@ export const useOpenFileStore = create<OpenFileState>((set) => ({
 
       if (result.kind === "text") {
         set({ contents: result.content, loading: false });
-        // Set initial mode based on file extension.
-        // .md files start in notes mode; all others start in source mode.
-        useDocModeStore.getState().setMode(relPath.endsWith(".md") ? "notes" : "source");
+        // All files open into source mode (the editor). Source mode autosaves
+        // and is the only writable surface. Users toggle to "Notes" for a
+        // read-only rendered view, matching Obsidian's Live Preview default.
+        useDocModeStore.getState().setMode("source");
       } else if (result.kind === "binary") {
         set({
           error: `Cannot display binary file (${result.size} bytes).`,

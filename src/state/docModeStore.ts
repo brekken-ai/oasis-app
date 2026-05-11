@@ -23,7 +23,7 @@ interface DocModeState {
 }
 
 export const useDocModeStore = create<DocModeState>((set, get) => ({
-  mode: "notes",
+  mode: "source",
 
   setMode(mode: DocMode) {
     set({ mode });
