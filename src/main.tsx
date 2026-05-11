@@ -1,3 +1,9 @@
+// Buffer polyfill — gray-matter (used by the vault markdown indexer) calls
+// the Node `Buffer` global, which isn't defined in browser/Tauri-webview
+// contexts. Importing here registers it before any module that needs it.
+import { Buffer } from "buffer";
+(globalThis as unknown as { Buffer: typeof Buffer }).Buffer = Buffer;
+
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/700.css";
 import "@xterm/xterm/css/xterm.css";
