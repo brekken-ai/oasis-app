@@ -18,6 +18,32 @@ import { PropertiesPanel } from "./PropertiesPanel";
 import { BacklinksPanel } from "./BacklinksPanel";
 import styles from "./DocPane.module.css";
 
+/**
+ * Resolve a relative href (e.g. "../decisions/foo.md") against the current
+ * file's directory (e.g. "outputs/note.md" → directory "outputs") to a
+ * vault-relative path ("decisions/foo.md").
+ *
+ * Handles `.`, `..`, and leading-slash absolute-from-vault-root cases.
+ */
+function resolveRelativeHref(currentRelPath: string | null, href: string): string {
+  // Leading slash: absolute from vault root.
+  if (href.startsWith("/")) return href.replace(/^\/+/, "");
+  const currentDir =
+    currentRelPath && currentRelPath.includes("/")
+      ? currentRelPath.slice(0, currentRelPath.lastIndexOf("/"))
+      : "";
+  const parts: string[] = currentDir ? currentDir.split("/") : [];
+  for (const segment of href.split("/")) {
+    if (segment === "" || segment === ".") continue;
+    if (segment === "..") {
+      parts.pop();
+      continue;
+    }
+    parts.push(segment);
+  }
+  return parts.join("/");
+}
+
 interface Props {
   onTagClick: (tag: string) => void;
   onWikilinkClick: (target: string) => void;
@@ -25,6 +51,7 @@ interface Props {
 
 export function NotesMode({ onTagClick, onWikilinkClick }: Props) {
   const contents = useOpenFileStore((s) => s.contents);
+  const currentRelPath = useOpenFileStore((s) => s.path);
   const root = useVaultStore((s) => s.root);
   const files = useVaultStore((s) => s.files);
 
@@ -80,10 +107,11 @@ export function NotesMode({ onTagClick, onWikilinkClick }: Props) {
           if (!href) return;
           // External / scheme-bearing URLs — let the browser handle them.
           if (/^(?:[a-z][a-z0-9+.-]*:)/i.test(href)) return;
-          // Relative path — open in the doc pane.
+          // Resolve `../foo.md` and similar against the current file's
+          // directory so the result is vault-relative.
           e.preventDefault();
-          const cleanHref = href.replace(/^\.\//, "");
-          onWikilinkClick(cleanHref);
+          const resolved = resolveRelativeHref(currentRelPath, href);
+          onWikilinkClick(resolved);
           return;
         }
 
