@@ -56,10 +56,13 @@ export const useOpenFileStore = create<OpenFileState>((set) => ({
 
       if (result.kind === "text") {
         set({ contents: result.content, loading: false });
-        // All files open into source mode (the editor). Source mode autosaves
-        // and is the only writable surface. Users toggle to "Notes" for a
-        // read-only rendered view, matching Obsidian's Live Preview default.
-        useDocModeStore.getState().setMode("source");
+        // Default: .md files open in Notes (read-only rendered view).
+        // Non-MD files open in Source. Cmd+Shift+E toggles to Source for
+        // editing — Source mode has its own Live Preview decorations so
+        // edits still feel rendered.
+        useDocModeStore
+          .getState()
+          .setMode(relPath.endsWith(".md") ? "notes" : "source");
       } else if (result.kind === "binary") {
         set({
           error: `Cannot display binary file (${result.size} bytes).`,
