@@ -14,3 +14,7 @@ The upstream project name is "Terax" (despite our internal docs sometimes referr
 Oasis takes Terax's lightweight terminal + Tauri foundation and strips the built-in AI subsystem in favor of an Obsidian-compatible vault layer. The user runs Claude Code inside the terminal pane, so a second AI surface inside the app is redundant for this user's workflow.
 
 See `<vault-root>/docs/superpowers/specs/2026-05-11-oasis-design.md` for the full design rationale and `<vault-root>/docs/superpowers/plans/2026-05-11-oasis-m1-fork-rebrand.md` for this milestone's plan.
+
+## Divergence from upstream
+
+Since the initial fork at `6d23b00b`, Oasis has diverged substantially. The AI subsystem, voice input, keychain-based API key storage, and LLM provider integrations have been removed. The vault, markdown rendering, navigation/search, doc-pane mode system, autosave, and Live Preview features are Oasis-specific additions not present in upstream Terax.
