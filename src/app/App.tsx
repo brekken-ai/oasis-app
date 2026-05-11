@@ -4,6 +4,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { VaultPicker } from "@/components/VaultPicker/VaultPicker";
 import { cn } from "@/lib/utils";
 import {
   EditorStack,
@@ -37,6 +38,9 @@ import {
 } from "@/modules/terminal";
 import { ThemeProvider } from "@/modules/theme";
 import { UpdaterDialog } from "@/modules/updater";
+import { getLastVault, setLastVault } from "@/state/appPrefs";
+import { useVaultStore } from "@/state/vaultStore";
+import { useVaultWatcher } from "@/hooks/useVaultWatcher";
 import { homeDir } from "@tauri-apps/api/path";
 import type { SearchAddon } from "@xterm/addon-search";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -120,6 +124,32 @@ export default function App() {
   useEffect(() => {
     void initPrefs();
   }, [initPrefs]);
+
+  // ── Vault layer ───────────────────────────────────────────────────────────
+
+  const vaultStatus = useVaultStore((s) => s.status);
+  const vaultRoot = useVaultStore((s) => s.root);
+  const openVault = useVaultStore((s) => s.openVault);
+
+  // Subscribe to FS events from the Rust watcher and keep the index live.
+  useVaultWatcher();
+
+  // On first mount: auto-load the last-used vault if one was persisted.
+  useEffect(() => {
+    if (vaultStatus === "closed") {
+      void getLastVault().then((last) => {
+        if (last) void openVault(last);
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // intentionally run once on mount only
+
+  // Whenever the vault root changes, persist it so the next launch auto-loads it.
+  useEffect(() => {
+    if (vaultRoot) void setLastVault(vaultRoot);
+  }, [vaultRoot]);
+
+  // ─────────────────────────────────────────────────────────────────────────
 
   const activeTab = tabs.find((t) => t.id === activeId);
   const isTerminalTab = activeTab?.kind === "terminal";
@@ -455,6 +485,10 @@ export default function App() {
   return (
     <ThemeProvider>
       <TooltipProvider>
+        {/* VaultPicker self-hides when status === "ready" */}
+        <VaultPicker />
+
+        {vaultStatus !== "ready" ? null : (
         <div className="relative flex h-screen flex-col overflow-hidden bg-background text-foreground">
           <Header
             tabs={tabs}
@@ -493,7 +527,7 @@ export default function App() {
               >
                 <div className="h-full border-r border-border/60 bg-card">
                   <FileExplorer
-                    rootPath={explorerRoot}
+                    rootPath={vaultRoot ?? explorerRoot}
                     onOpenFile={handleOpenFile}
                     onPathRenamed={handlePathRenamed}
                     onPathDeleted={handlePathDeleted}
@@ -584,6 +618,7 @@ export default function App() {
 
           <UpdaterDialog />
         </div>
+        )} {/* end vaultStatus === "ready" gate */}
       </TooltipProvider>
     </ThemeProvider>
   );
