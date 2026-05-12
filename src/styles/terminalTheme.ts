@@ -9,25 +9,25 @@ import type { ITheme } from "@xterm/xterm";
  * stays curated — globals.css is grayscale, it has no semantic color palette.
  */
 
-/** Curated ANSI 16 palette, tuned for shadcn's dark surface. */
+/** ANSI 16 palette per the Claude Design handoff (oasis-design.html). */
 const ansi = {
-  black: "#18181b",
-  red: "#ef4444",
-  green: "#22c55e",
-  yellow: "#eab308",
-  blue: "#3b82f6",
-  magenta: "#a855f7",
-  cyan: "#06b6d4",
-  white: "#e4e4e7",
+  black: "#0b0e13",
+  red: "#e06c75",
+  green: "#98c379",
+  yellow: "#e5c07b",
+  blue: "#7aa2f7",
+  magenta: "#c678dd",
+  cyan: "#7fb3a3",
+  white: "#d6dbe4",
 
-  brightBlack: "#52525b",
-  brightRed: "#f87171",
-  brightGreen: "#4ade80",
-  brightYellow: "#facc15",
-  brightBlue: "#60a5fa",
-  brightMagenta: "#c084fc",
-  brightCyan: "#22d3ee",
-  brightWhite: "#fafafa",
+  brightBlack: "#515c6c",
+  brightRed: "#e06c75",
+  brightGreen: "#98c379",
+  brightYellow: "#e5c07b",
+  brightBlue: "#7aa2f7",
+  brightMagenta: "#c678dd",
+  brightCyan: "#7fb3a3",
+  brightWhite: "#eef1f6",
 } as const;
 
 /** Semantic palette reused by the code editor. Kept in one place so the
