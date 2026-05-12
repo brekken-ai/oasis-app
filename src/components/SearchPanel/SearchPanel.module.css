@@ -84,7 +84,7 @@
 }
 
 .hitPath {
-  color: #7ab8e0;
+  color: var(--accent-warm);
   font-family: ui-monospace, monospace;
   font-size: 11px;
   margin-bottom: 2px;
@@ -107,7 +107,7 @@
 }
 
 .errorMsg {
-  color: #e88c5a;
+  color: var(--destructive);
   padding: 12px 14px;
   font-size: 12px;
   margin: 0;

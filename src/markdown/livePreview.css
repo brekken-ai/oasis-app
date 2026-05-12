@@ -36,7 +36,7 @@
 .cm-md-inline-code {
   font-family: ui-monospace, monospace;
   background: var(--muted);
-  color: #d4a574;
+  color: var(--accent-warm);
   padding: 1px 5px;
   border-radius: 3px;
   font-size: 0.9em;

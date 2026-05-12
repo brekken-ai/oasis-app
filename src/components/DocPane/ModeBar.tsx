@@ -1,12 +1,12 @@
 // src/components/DocPane/ModeBar.tsx
 //
-// Top strip of the doc pane showing Notes | Source | Preview mode buttons.
+// Segmented control at the top of the doc pane: Notes | Source | Preview.
+// Visual spec per oasis-design.html §6 (mode bar artboards) — pill group on
+// a muted track, active segment lifts to --card with a sage dot.
 //
 // Rules:
 //   - Notes: disabled when the current file is not .md
-//   - Preview: enabled (shipped in M5/B)
-//   - Source: always enabled
-//   - Active mode is visually highlighted
+//   - Preview / Source: always enabled
 
 import { useDocModeStore, type DocMode } from "@/state/docModeStore";
 import { useOpenFileStore } from "@/state/openFileStore";
@@ -31,29 +31,43 @@ export function ModeBar() {
   const isMarkdown = path?.endsWith(".md") ?? false;
 
   return (
-    <div className="flex items-center gap-1 border-b border-border/60 bg-background px-3 py-1">
-      {MODES.map(({ mode: m, label }) => {
-        const isActive = mode === m;
-        const isDisabled = m === "notes" && !isMarkdown;
+    <div
+      className="flex h-8 items-center border-b border-border bg-background-2 px-2"
+      role="tablist"
+      aria-label="Doc pane mode"
+    >
+      <div className="inline-flex items-center gap-0 rounded-md border border-border bg-muted p-[2px]">
+        {MODES.map(({ mode: m, label }) => {
+          const isActive = mode === m;
+          const isDisabled = m === "notes" && !isMarkdown;
 
-        return (
-          <button
-            key={m}
-            onClick={() => !isDisabled && setMode(m)}
-            disabled={isDisabled}
-            aria-pressed={isActive}
-            className={cn(
-              "rounded px-2 py-0.5 text-xs font-medium transition-colors",
-              isActive
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:text-foreground",
-              isDisabled && "cursor-not-allowed opacity-40",
-            )}
-          >
-            {label}
-          </button>
-        );
-      })}
+          return (
+            <button
+              key={m}
+              type="button"
+              onClick={() => !isDisabled && setMode(m)}
+              disabled={isDisabled}
+              role="tab"
+              aria-selected={isActive}
+              className={cn(
+                "rounded-[4px] px-2.5 py-1 text-[11.5px] font-medium tracking-[0.02em] transition-colors",
+                isActive
+                  ? "bg-card text-foreground-strong shadow-[0_0_0_1px_var(--border-strong)]"
+                  : "text-muted-foreground hover:text-foreground",
+                isDisabled && "cursor-not-allowed opacity-40 hover:text-muted-foreground",
+              )}
+            >
+              {isActive && (
+                <span
+                  aria-hidden
+                  className="mr-1.5 inline-block h-[5px] w-[5px] translate-y-[-1px] rounded-full bg-primary align-middle"
+                />
+              )}
+              {label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

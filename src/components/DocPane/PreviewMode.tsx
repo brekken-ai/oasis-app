@@ -109,8 +109,8 @@ export function PreviewMode() {
           alignItems: "center",
           gap: 6,
           padding: "6px 12px",
-          borderBottom: "1px solid #222",
-          background: "#161616",
+          borderBottom: "1px solid var(--border)",
+          background: "var(--background-2)",
           flexShrink: 0,
         }}
       >
@@ -136,10 +136,10 @@ export function PreviewMode() {
           }
           style={{
             flex: 1,
-            background: "#0d0d0d",
-            border: "1px solid #333",
+            background: "var(--background)",
+            border: "1px solid var(--border)",
             borderRadius: 4,
-            color: "#ddd",
+            color: "var(--foreground)",
             fontSize: 12,
             padding: "3px 8px",
             fontFamily: "ui-monospace, monospace",
@@ -150,10 +150,10 @@ export function PreviewMode() {
           type="button"
           onClick={handleSubmit}
           style={{
-            background: "#2a3a2a",
-            border: "1px solid #3a5a3a",
+            background: "var(--primary-soft)",
+            border: "1px solid var(--border)",
             borderRadius: 4,
-            color: "#9fcf6f",
+            color: "var(--primary)",
             fontSize: 11,
             padding: "3px 10px",
             cursor: "pointer",
@@ -173,7 +173,7 @@ export function PreviewMode() {
             style={{
               background: "none",
               border: "none",
-              color: "#666",
+              color: "var(--muted-foreground)",
               fontSize: 11,
               cursor: "pointer",
               padding: "3px 6px",
@@ -205,7 +205,7 @@ export function PreviewMode() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            color: "#666",
+            color: "var(--muted-foreground)",
             fontSize: 13,
             gap: 8,
             padding: "0 24px",
@@ -217,7 +217,7 @@ export function PreviewMode() {
           ) : (
             <>
               <p>No dev server detected on common ports.</p>
-              <p style={{ fontSize: 11, color: "#555" }}>
+              <p style={{ fontSize: 11, color: "var(--subtle-foreground)" }}>
                 Paste a URL above (e.g. http://localhost:3000) and press Enter.
               </p>
             </>

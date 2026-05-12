@@ -72,7 +72,7 @@
 }
 
 .markdownBody a {
-  color: #d4a574;
+  color: var(--accent-warm);
   text-decoration: none;
 }
 
@@ -82,7 +82,7 @@
 
 /* Wikilinks share the warm-accent tone with hyperlinks */
 .markdownBody :global(.wikilink) {
-  color: #d4a574;
+  color: var(--accent-warm);
 }
 
 .markdownBody :global(.wikilink-unresolved) {
@@ -110,7 +110,7 @@
   border-radius: 3px;
   font-size: 13px;
   font-family: ui-monospace, monospace;
-  color: #d4a574;
+  color: var(--accent-warm);
 }
 
 /* Hover affordance — inline code that looks like a vault path is clickable.
@@ -195,22 +195,22 @@
   margin: 20px 0;
 }
 
-/* Callout blocks ([!note], [!warning], etc.) — retinted to the sage/tan palette */
+/* Callout blocks ([!note], [!warning], etc.) — sage/tan/destructive palette */
 .markdownBody :global(.callout) {
-  border-left: 3px solid #7fb3a3;
-  background: rgba(127, 179, 163, 0.06);
+  border-left: 3px solid var(--primary);
+  background: var(--primary-soft);
   padding: 8px 14px;
   border-radius: 4px;
   margin: 12px 0;
 }
 
 .markdownBody :global(.callout-warning) {
-  border-left-color: #d4a574;
-  background: rgba(212, 165, 116, 0.07);
+  border-left-color: var(--accent-warm);
+  background: var(--accent-soft);
 }
 
 .markdownBody :global(.callout-danger) {
-  border-left-color: #e06c75;
+  border-left-color: var(--destructive);
   background: rgba(224, 108, 117, 0.07);
 }
 
@@ -317,7 +317,7 @@
 .backlinks li button {
   background: none;
   border: none;
-  color: #d4a574;
+  color: var(--accent-warm);
   cursor: pointer;
   padding: 2px 0;
   font-size: 13px;

@@ -26,19 +26,24 @@
 }
 
 .modal p {
-  color: #aaa;
+  color: var(--muted-foreground);
   font-size: 13px;
   margin: 0 0 14px;
 }
 
 .modal button {
-  background: #2a4a2a;
-  color: #ccffdd;
-  border: 1px solid #3a5a3a;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 8px 14px;
   font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
+}
+
+.modal button:hover:not(:disabled) {
+  background: var(--card-2);
 }
 
 .modal button:disabled {
@@ -47,7 +52,7 @@
 }
 
 .error {
-  color: #e88c5a;
+  color: var(--destructive);
   font-size: 12px;
   margin-top: 10px;
   margin-bottom: 0;

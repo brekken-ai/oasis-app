@@ -32,8 +32,8 @@ export class ErrorBoundary extends Component<Props, State> {
         style={{
           position: "fixed",
           inset: 0,
-          background: "#0a0a0a",
-          color: "#e88c5a",
+          background: "var(--background)",
+          color: "var(--destructive)",
           padding: 28,
           overflow: "auto",
           fontFamily: "ui-monospace, monospace",
@@ -42,24 +42,24 @@ export class ErrorBoundary extends Component<Props, State> {
           zIndex: 99999,
         }}
       >
-        <h2 style={{ color: "#fff", marginTop: 0, fontFamily: "ui-sans-serif" }}>
+        <h2 style={{ color: "var(--foreground-strong)", marginTop: 0, fontFamily: "ui-sans-serif" }}>
           Render error
         </h2>
-        <pre style={{ whiteSpace: "pre-wrap", color: "#e88c5a" }}>
+        <pre style={{ whiteSpace: "pre-wrap", color: "var(--destructive)" }}>
           {this.state.error.name}: {this.state.error.message}
         </pre>
         {this.state.error.stack && (
           <details style={{ marginTop: 12 }}>
-            <summary style={{ cursor: "pointer", color: "#888" }}>Stack</summary>
-            <pre style={{ whiteSpace: "pre-wrap", color: "#aaa", fontSize: 11, marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", color: "var(--muted-foreground)" }}>Stack</summary>
+            <pre style={{ whiteSpace: "pre-wrap", color: "var(--muted-foreground)", fontSize: 11, marginTop: 8 }}>
               {this.state.error.stack}
             </pre>
           </details>
         )}
         {this.state.info && (
           <details style={{ marginTop: 12 }}>
-            <summary style={{ cursor: "pointer", color: "#888" }}>Component stack</summary>
-            <pre style={{ whiteSpace: "pre-wrap", color: "#aaa", fontSize: 11, marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", color: "var(--muted-foreground)" }}>Component stack</summary>
+            <pre style={{ whiteSpace: "pre-wrap", color: "var(--muted-foreground)", fontSize: 11, marginTop: 8 }}>
               {this.state.info}
             </pre>
           </details>
@@ -69,9 +69,9 @@ export class ErrorBoundary extends Component<Props, State> {
           style={{
             marginTop: 16,
             padding: "6px 14px",
-            background: "#2a4a2a",
-            color: "#cfd",
-            border: "1px solid #3a5a3a",
+            background: "var(--primary-soft)",
+            color: "var(--primary)",
+            border: "1px solid var(--border)",
             borderRadius: 6,
             cursor: "pointer",
             fontFamily: "ui-sans-serif",

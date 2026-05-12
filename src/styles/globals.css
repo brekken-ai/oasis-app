@@ -40,7 +40,16 @@
     --color-card-foreground: var(--card-foreground);
     --color-card: var(--card);
     --color-foreground: var(--foreground);
+    --color-foreground-strong: var(--foreground-strong);
+    --color-subtle-foreground: var(--subtle-foreground);
     --color-background: var(--background);
+    --color-background-2: var(--background-2);
+    --color-card-2: var(--card-2);
+    --color-border-strong: var(--border-strong);
+    --color-primary-soft: var(--primary-soft);
+    --color-accent-warm: var(--accent-warm);
+    --color-accent-soft: var(--accent-soft);
+    --color-sidebar-muted: var(--sidebar-muted);
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -86,23 +95,35 @@
 }
 
 .dark {
-    /* Typography-first dark palette — cool blue-black base, sage-cyan primary, warm tan accent */
+    /* Oasis dark palette — Claude Design handoff (oasis-design.html).
+     * Cool near-black base, sage-teal primary (water), warm-sand secondary accent.
+     * Note: shadcn's --accent stays a surface tone for component compatibility;
+     * the warm-tan brand accent is exposed as --accent-warm.
+     */
     --background: #0b0e13;
+    --background-2: #0d1118;     /* titlebar, mode-bar, terminal status row */
     --foreground: #d6dbe4;
+    --foreground-strong: #eef1f6; /* headings, active tab labels */
+    --subtle-foreground: #515c6c; /* gutter line numbers, kbd hints */
     --card: #10141b;
     --card-foreground: #d6dbe4;
+    --card-2: #131922;            /* hover / active row */
     --popover: #10141b;
     --popover-foreground: #d6dbe4;
     --primary: #7fb3a3;
     --primary-foreground: #0b0e13;
+    --primary-soft: #7fb3a322;    /* 13% alpha wash for chips, focus rings */
     --secondary: #161c25;
     --secondary-foreground: #d6dbe4;
     --muted: #161c25;
     --muted-foreground: #7a8494;
-    --accent: #161c25;
+    --accent: #161c25;            /* shadcn-compatible surface accent */
     --accent-foreground: #d6dbe4;
+    --accent-warm: #d4a574;       /* warm-sand brand accent (links/wikilinks) */
+    --accent-soft: #d4a57418;
     --destructive: #e06c75;
     --border: #1c232d;
+    --border-strong: #283140;     /* segmented control divider, modal edge */
     --input: #1c232d;
     --ring: #3a4d6b;
     --chart-1: oklch(0.872 0.007 219.6);
@@ -112,6 +133,7 @@
     --chart-5: oklch(0.275 0.011 216.9);
     --sidebar: #0d1118;
     --sidebar-foreground: #b9c0cc;
+    --sidebar-muted: #6c7686;     /* sb-foot, sb-title chrome labels */
     --sidebar-primary: #7fb3a3;
     --sidebar-primary-foreground: #0b0e13;
     --sidebar-accent: #161c25;
