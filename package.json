@@ -16,10 +16,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "pnpm lint:css-tokens && tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ci": "vitest run && pnpm lint:css-tokens",
+    "lint:css-tokens": "bash scripts/check-css-tokens.sh"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.1",
