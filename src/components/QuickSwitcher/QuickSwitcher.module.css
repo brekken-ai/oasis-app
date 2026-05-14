@@ -5,7 +5,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #04060abb;
+  background: var(--overlay-bg);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -19,7 +19,7 @@
   background: var(--card);
   border: 1px solid var(--border-strong);
   border-radius: 10px;
-  box-shadow: 0 30px 80px -10px #000, 0 0 0 1px #ffffff06;
+  box-shadow: 0 30px 80px -10px #000 /* intentionally not themed */, 0 0 0 1px #ffffff06 /* intentionally not themed */;
   overflow: hidden;
   display: flex;
   flex-direction: column;

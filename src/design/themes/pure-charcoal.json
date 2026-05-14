@@ -5,6 +5,7 @@
   "tokens": {
     "background": "#0b0e13",
     "background-2": "#0d1118",
+    "overlay-bg": "rgba(4, 6, 10, 0.73)",
     "foreground": "#d6dbe4",
     "foreground-strong": "#eef1f6",
     "subtle-foreground": "#515c6c",

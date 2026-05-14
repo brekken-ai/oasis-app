@@ -89,6 +89,7 @@
     --card-2: #131922;              /* hover / active row */
     --popover: #10141b;
     --sidebar: #0d1118;
+    --overlay-bg: rgba(4, 6, 10, 0.73); /* modal/dialog backdrop dim */
 
     /* === Foreground === */
     --foreground: #d6dbe4;
@@ -157,6 +158,7 @@
     --card-2: rgba(255, 255, 255, 0.06);
     --popover: rgba(16, 20, 27, 0.85);
     --sidebar: rgba(0, 0, 0, 0.25);
+    --overlay-bg: rgba(4, 6, 10, 0.73); /* modal/dialog backdrop dim */
 
     /* === Foreground — same as solid dark; re-declared to avoid cascade surprises === */
     --foreground: #d6dbe4;
