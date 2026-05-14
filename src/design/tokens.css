@@ -1,0 +1,209 @@
+/* src/design/tokens.css
+ * Single source of truth for design token VALUES.
+ * Two background modes: data-bg-mode="solid" (default) and data-bg-mode="vibrancy" (macOS).
+ * Tailwind v4 @theme inline block in globals.css references these vars as var(--token).
+ * Consumed by: every component CSS file in the app.
+ *
+ * Light-mode tokens are in the :root[data-bg-mode="solid"]/:root:not([data-bg-mode]) block.
+ * Dark-mode tokens are in the .dark selector block.
+ * Vibrancy overrides apply only to surface tokens; all other tokens inherit from the active mode.
+ */
+
+/* ============================================================
+ * LIGHT MODE (default / solid)
+ * ============================================================ */
+
+:root[data-bg-mode="solid"],
+:root:not([data-bg-mode]) {
+    /* === Surfaces === */
+    --background: oklch(1 0 0);
+    --background-2: oklch(0.987 0.002 197.1);
+    --card: oklch(1 0 0);
+    --card-2: oklch(0.963 0.002 197.1);
+    --popover: oklch(1 0 0);
+    --sidebar: oklch(0.987 0.002 197.1);
+
+    /* === Foreground === */
+    --foreground: oklch(0.148 0.004 228.8);
+    --foreground-strong: oklch(0.148 0.004 228.8);
+    --subtle-foreground: oklch(0.56 0.021 213.5);
+    --card-foreground: oklch(0.148 0.004 228.8);
+    --popover-foreground: oklch(0.148 0.004 228.8);
+    --sidebar-foreground: oklch(0.148 0.004 228.8);
+    --sidebar-muted: oklch(0.56 0.021 213.5);
+
+    /* === Accents / Brand === */
+    --primary: oklch(0.218 0.008 223.9);
+    --primary-foreground: oklch(0.987 0.002 197.1);
+    --primary-soft: oklch(0.218 0.008 223.9 / 13%);
+    --secondary: oklch(0.963 0.002 197.1);
+    --secondary-foreground: oklch(0.218 0.008 223.9);
+    --muted: oklch(0.963 0.002 197.1);
+    --muted-foreground: oklch(0.56 0.021 213.5);
+    --accent: oklch(0.963 0.002 197.1);
+    --accent-foreground: oklch(0.218 0.008 223.9);
+    --accent-warm: oklch(0.75 0.12 60);
+    --accent-soft: oklch(0.75 0.12 60 / 10%);
+    --destructive: oklch(0.577 0.245 27.325);
+
+    /* === Sidebar sub-tokens === */
+    --sidebar-primary: oklch(0.218 0.008 223.9);
+    --sidebar-primary-foreground: oklch(0.987 0.002 197.1);
+    --sidebar-accent: oklch(0.963 0.002 197.1);
+    --sidebar-accent-foreground: oklch(0.218 0.008 223.9);
+    --sidebar-border: oklch(0.925 0.005 214.3);
+    --sidebar-ring: oklch(0.723 0.014 214.4);
+
+    /* === Borders / Inputs === */
+    --border: oklch(0.925 0.005 214.3);
+    --border-strong: oklch(0.872 0.007 219.6);
+    --input: oklch(0.925 0.005 214.3);
+    --ring: oklch(0.723 0.014 214.4);
+
+    /* === Charts === */
+    --chart-1: oklch(0.872 0.007 219.6);
+    --chart-2: oklch(0.56 0.021 213.5);
+    --chart-3: oklch(0.45 0.017 213.2);
+    --chart-4: oklch(0.378 0.015 216);
+    --chart-5: oklch(0.275 0.011 216.9);
+
+    /* === Radius === */
+    --radius: 0.625rem;
+}
+
+/* ============================================================
+ * DARK MODE
+ * ============================================================ */
+
+.dark {
+    /* Oasis dark palette — Claude Design handoff (oasis-design.html).
+     * Cool near-black base, sage-teal primary (water), warm-sand secondary accent.
+     * Note: shadcn's --accent stays a surface tone for component compatibility;
+     * the warm-tan brand accent is exposed as --accent-warm.
+     */
+
+    /* === Surfaces === */
+    --background: #0b0e13;
+    --background-2: #0d1118;        /* titlebar, mode-bar, terminal status row */
+    --card: #10141b;
+    --card-2: #131922;              /* hover / active row */
+    --popover: #10141b;
+    --sidebar: #0d1118;
+    --overlay-bg: rgba(4, 6, 10, 0.73); /* modal/dialog backdrop dim */
+
+    /* === Foreground === */
+    --foreground: #d6dbe4;
+    --foreground-strong: #eef1f6;   /* headings, active tab labels */
+    --subtle-foreground: #515c6c;   /* gutter line numbers, kbd hints */
+    --card-foreground: #d6dbe4;
+    --popover-foreground: #d6dbe4;
+    --sidebar-foreground: #b9c0cc;
+    --sidebar-muted: #6c7686;       /* sb-foot, sb-title chrome labels */
+
+    /* === Accents / Brand === */
+    --primary: #7fb3a3;
+    --primary-foreground: #0b0e13;
+    --primary-soft: #7fb3a322;      /* 13% alpha wash for chips, focus rings */
+    --secondary: #161c25;
+    --secondary-foreground: #d6dbe4;
+    --muted: #161c25;
+    --muted-foreground: #7a8494;
+    --accent: #161c25;              /* shadcn-compatible surface accent */
+    --accent-foreground: #d6dbe4;
+    --accent-warm: #d4a574;         /* warm-sand brand accent (links/wikilinks) */
+    --accent-soft: #d4a57418;
+    --destructive: #e06c75;
+
+    /* === Sidebar sub-tokens === */
+    --sidebar-primary: #7fb3a3;
+    --sidebar-primary-foreground: #0b0e13;
+    --sidebar-accent: #161c25;
+    --sidebar-accent-foreground: #eef1f6;
+    --sidebar-border: #161c25;
+    --sidebar-ring: #3a4d6b;
+
+    /* === Borders / Inputs === */
+    --border: #1c232d;
+    --border-strong: #283140;       /* segmented control divider, modal edge */
+    --input: #1c232d;
+    --ring: #3a4d6b;
+
+    /* === Charts === */
+    --chart-1: oklch(0.872 0.007 219.6);
+    --chart-2: oklch(0.56 0.021 213.5);
+    --chart-3: oklch(0.45 0.017 213.2);
+    --chart-4: oklch(0.378 0.015 216);
+    --chart-5: oklch(0.275 0.011 216.9);
+
+    /* === Radius === */
+    --radius: 0.625rem;
+}
+
+/* ============================================================
+ * VIBRANCY MODE (macOS — translucent window material)
+ * Applied on top of dark mode: .dark :root[data-bg-mode="vibrancy"]
+ * or just :root[data-bg-mode="vibrancy"] when the .dark class is set
+ * on <html>.
+ *
+ * Only surface tokens are overridden here; all foreground, accent,
+ * border, state, and chart tokens inherit from .dark above.
+ * Week 4 will tune the vibrancy palette with a live preview panel.
+ * ============================================================ */
+
+:root[data-bg-mode="vibrancy"] {
+    /* === Surfaces — vibrancy mode, rgba so macOS material shows through === */
+    --background: transparent;
+    --background-2: rgba(0, 0, 0, 0.30);
+    --card: rgba(255, 255, 255, 0.04);
+    --card-2: rgba(255, 255, 255, 0.06);
+    --popover: rgba(16, 20, 27, 0.85);
+    --sidebar: rgba(0, 0, 0, 0.25);
+    --overlay-bg: rgba(4, 6, 10, 0.73); /* modal/dialog backdrop dim */
+
+    /* === Foreground — same as solid dark; re-declared to avoid cascade surprises === */
+    --foreground: #d6dbe4;
+    --foreground-strong: #eef1f6;
+    --subtle-foreground: #515c6c;
+    --card-foreground: #d6dbe4;
+    --popover-foreground: #d6dbe4;
+    --sidebar-foreground: #b9c0cc;
+    --sidebar-muted: #6c7686;
+
+    /* === Accents / Brand — same as solid dark === */
+    --primary: #7fb3a3;
+    --primary-foreground: #0b0e13;
+    --primary-soft: #7fb3a322;
+    --secondary: #161c25;
+    --secondary-foreground: #d6dbe4;
+    --muted: #161c25;
+    --muted-foreground: #7a8494;
+    --accent: #161c25;
+    --accent-foreground: #d6dbe4;
+    --accent-warm: #d4a574;
+    --accent-soft: #d4a57418;
+    --destructive: #e06c75;
+
+    /* === Sidebar sub-tokens === */
+    --sidebar-primary: #7fb3a3;
+    --sidebar-primary-foreground: #0b0e13;
+    --sidebar-accent: #161c25;
+    --sidebar-accent-foreground: #eef1f6;
+    --sidebar-border: #161c25;
+    --sidebar-ring: #3a4d6b;
+
+    /* === Borders / Inputs — same as solid dark === */
+    --border: #1c232d;
+    --border-strong: #283140;
+    --input: #1c232d;
+    --ring: #3a4d6b;
+
+    /* === Charts — same as solid dark === */
+    --chart-1: oklch(0.872 0.007 219.6);
+    --chart-2: oklch(0.56 0.021 213.5);
+    --chart-3: oklch(0.45 0.017 213.2);
+    --chart-4: oklch(0.378 0.015 216);
+    --chart-5: oklch(0.275 0.011 216.9);
+
+    /* === Radius === */
+    --radius: 0.625rem;
+}

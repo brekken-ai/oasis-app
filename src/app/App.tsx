@@ -36,7 +36,7 @@ import {
   respawnSession,
   TerminalStack,
   type TerminalPaneHandle,
-  type TeraxOpenInput,
+  type OasisOpenInput,
 } from "@/modules/terminal";
 import { ThemeProvider } from "@/modules/theme";
 import { UpdaterDialog } from "@/modules/updater";
@@ -521,8 +521,8 @@ export default function App() {
     [closePaneByLeaf],
   );
 
-  const handleTeraxOpen = useCallback(
-    (_tabId: number, input: TeraxOpenInput) => {
+  const handleOasisOpen = useCallback(
+    (_tabId: number, input: OasisOpenInput) => {
       // Always open in a new tab
       openFileTab(input.file);
     },
@@ -621,7 +621,7 @@ export default function App() {
                               onCwd={handleTerminalCwd}
                               onDetectedLocalUrl={handleDetectedLocalUrl}
                               onExit={handleLeafExit}
-                              onTeraxOpen={handleTeraxOpen}
+                              onOasisOpen={handleOasisOpen}
                               onFocusLeaf={handleFocusLeaf}
                             />
                           </div>
@@ -705,7 +705,7 @@ export default function App() {
                           onCwd={handleTerminalCwd}
                           onDetectedLocalUrl={handleDetectedLocalUrl}
                           onExit={handleLeafExit}
-                          onTeraxOpen={handleTeraxOpen}
+                          onOasisOpen={handleOasisOpen}
                           onFocusLeaf={handleFocusLeaf}
                         />
                       </div>

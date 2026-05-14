@@ -1,0 +1,13 @@
+/* Popover.module.css — anchor-positioned floating panel */
+
+.popover {
+  position: fixed;
+  z-index: 1100;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  min-width: 160px;
+  padding: 4px 0;
+}

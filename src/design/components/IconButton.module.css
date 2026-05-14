@@ -1,0 +1,54 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 120ms, color 120ms;
+  color: var(--muted-foreground);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === Sizes === */
+
+.sm {
+  width: 24px;
+  height: 24px;
+}
+
+.md {
+  width: 28px;
+  height: 28px;
+}
+
+/* === Variants === */
+
+.ghost {
+  background: transparent;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--card);
+  color: var(--foreground);
+}
+
+.default {
+  background: var(--card);
+  color: var(--foreground);
+}
+
+.default:hover:not(:disabled) {
+  background: var(--card-2);
+}

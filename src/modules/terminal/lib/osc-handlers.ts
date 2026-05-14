@@ -36,17 +36,17 @@ export function registerPromptTracker(term: Terminal): PromptTracker {
   };
 }
 
-export type TeraxOpenInput = {
+export type OasisOpenInput = {
   file: string;
 };
 
-export function registerTeraxOpenHandler(
+export function registerOasisOpenHandler(
   term: Terminal,
-  onTeraxOpen: (input: TeraxOpenInput) => void,
+  onOasisOpen: (input: OasisOpenInput) => void,
 ): () => void {
   const d = term.parser.registerOscHandler(8888, (data) => {
-    const input = parseTeraxOpen(data);
-    if (input) onTeraxOpen(input);
+    const input = parseOasisOpen(data);
+    if (input) onOasisOpen(input);
     return true;
   });
   return () => d.dispose();
@@ -64,7 +64,7 @@ function parseOsc7(data: string): string | null {
   return path;
 }
 
-function parseTeraxOpen(data: string): TeraxOpenInput | null {
+function parseOasisOpen(data: string): OasisOpenInput | null {
   // Parse format: "file=/path/to/file"
   const fileMatch = data.match(/file=([^;]+)/);
 

@@ -1,0 +1,64 @@
+/* Modal.module.css — backdrop, centered dialog, header, body slots */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+/* Force repaint so CSS transition fires after portal mount */
+.backdrop {
+  animation: fadeIn 120ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.dialog {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  width: 100%;
+  animation: fadeIn 120ms ease forwards;
+}
+
+/* Size variants */
+.sm { max-width: 360px; }
+.md { max-width: 520px; }
+.lg { max-width: 720px; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.4;
+}
+
+.body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--foreground);
+}

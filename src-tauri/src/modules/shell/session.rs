@@ -106,14 +106,14 @@ impl ShellSession {
 #[cfg(unix)]
 fn wrap_with_sentinel(command: &str) -> String {
     format!(
-        "{command}\n__terax_rc=$?\nprintf '\\n%s%s\\n' '{CWD_SENTINEL}' \"$(pwd)\"\nexit $__terax_rc\n",
+        "{command}\n__oasis_rc=$?\nprintf '\\n%s%s\\n' '{CWD_SENTINEL}' \"$(pwd)\"\nexit $__oasis_rc\n",
     )
 }
 
 #[cfg(windows)]
 fn wrap_with_sentinel(command: &str) -> String {
     format!(
-        "{command}\n$__terax_rc = if ($null -ne $LASTEXITCODE) {{ $LASTEXITCODE }} elseif ($?) {{ 0 }} else {{ 1 }}\n\"`n{CWD_SENTINEL}$($PWD.Path)\"\nexit $__terax_rc\n",
+        "{command}\n$__oasis_rc = if ($null -ne $LASTEXITCODE) {{ $LASTEXITCODE }} elseif ($?) {{ 0 }} else {{ 1 }}\n\"`n{CWD_SENTINEL}$($PWD.Path)\"\nexit $__oasis_rc\n",
     )
 }
 
