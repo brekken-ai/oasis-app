@@ -1,0 +1,72 @@
+/* ContextMenu.module.css — right-click context menu with keyboard nav and submenus */
+
+.menu {
+  position: fixed;
+  z-index: 1200;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  min-width: 180px;
+  max-width: 280px;
+  padding: 4px 0;
+  outline: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: default;
+  user-select: none;
+  border-radius: 3px;
+  margin: 1px 4px;
+  color: var(--popover-foreground);
+}
+
+.item:hover,
+.item.active {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.item.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  color: var(--muted-foreground);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shortcut {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  letter-spacing: 0.02em;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+}
+
+.separator {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
