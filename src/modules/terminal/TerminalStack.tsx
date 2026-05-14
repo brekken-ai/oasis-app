@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { PaneTreeView } from "./PaneTreeView";
 import type { TerminalPaneHandle } from "./TerminalPane";
 import { leafIds } from "./lib/panes";
-import { type TeraxOpenInput } from "./lib/useTerminalSession";
+import { type OasisOpenInput } from "./lib/useTerminalSession";
 
 type Props = {
   tabs: Tab[];
@@ -15,7 +15,7 @@ type Props = {
   onCwd: (leafId: number, cwd: string) => void;
   onDetectedLocalUrl: (leafId: number, url: string) => void;
   onExit: (leafId: number, code: number) => void;
-  onTeraxOpen?: (leafId: number, input: TeraxOpenInput) => void;
+  onOasisOpen?: (leafId: number, input: OasisOpenInput) => void;
   onFocusLeaf: (tabId: number, leafId: number) => void;
 };
 
@@ -25,7 +25,7 @@ type Bundle = {
   onCwd: (cwd: string) => void;
   onDetectedUrl: (url: string) => void;
   onExit: (code: number) => void;
-  onTeraxOpen: (input: TeraxOpenInput) => void;
+  onOasisOpen: (input: OasisOpenInput) => void;
 };
 
 export function TerminalStack({
@@ -36,7 +36,7 @@ export function TerminalStack({
   onCwd,
   onDetectedLocalUrl,
   onExit,
-  onTeraxOpen,
+  onOasisOpen,
   onFocusLeaf,
 }: Props) {
   const terminals = tabs.filter((t) => t.kind === "terminal");
@@ -46,7 +46,7 @@ export function TerminalStack({
   const cwdRef = useRef(onCwd);
   const detectedUrlRef = useRef(onDetectedLocalUrl);
   const exitRef = useRef(onExit);
-  const teraxOpenRef = useRef(onTeraxOpen);
+  const oasisOpenRef = useRef(onOasisOpen);
   useEffect(() => {
     registerRef.current = registerHandle;
   }, [registerHandle]);
@@ -63,8 +63,8 @@ export function TerminalStack({
     exitRef.current = onExit;
   }, [onExit]);
   useEffect(() => {
-    teraxOpenRef.current = onTeraxOpen;
-  }, [onTeraxOpen]);
+    oasisOpenRef.current = onOasisOpen;
+  }, [onOasisOpen]);
 
   const bundles = useRef(new Map<number, Bundle>());
   const getBundle = (leafId: number): Bundle => {
@@ -76,7 +76,7 @@ export function TerminalStack({
         onCwd: (cwd) => cwdRef.current(leafId, cwd),
         onDetectedUrl: (url) => detectedUrlRef.current(leafId, url),
         onExit: (code) => exitRef.current(leafId, code),
-        onTeraxOpen: (input) => teraxOpenRef.current?.(leafId, input),
+        onOasisOpen: (input) => oasisOpenRef.current?.(leafId, input),
       };
       bundles.current.set(leafId, b);
     }

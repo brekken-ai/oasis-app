@@ -10,12 +10,12 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import {
   registerCwdHandler,
   registerPromptTracker,
-  registerTeraxOpenHandler,
-  type TeraxOpenInput,
+  registerOasisOpenHandler,
+  type OasisOpenInput,
 } from "./osc-handlers";
 import { openPty, type PtySession } from "./pty-bridge";
 
-export type { TeraxOpenInput };
+export type { OasisOpenInput };
 
 const FONT_SIZE = 14;
 const BACKWARD_KILL_WORD = "\x17";
@@ -28,7 +28,7 @@ type Callbacks = {
   onExit?: (code: number) => void;
   onCwd?: (cwd: string) => void;
   onDetectedLocalUrl?: (url: string) => void;
-  onTeraxOpen?: (input: TeraxOpenInput) => void;
+  onOasisOpen?: (input: OasisOpenInput) => void;
 };
 
 // Lives outside React so split/unsplit re-parent the DOM without tearing
@@ -138,8 +138,8 @@ function ensureSession(leafId: number, initialCwd?: string): Session {
         session.lastCwd = cwd;
         session.callbacks.onCwd?.(cwd);
       }),
-      registerTeraxOpenHandler(term, (input) => {
-        session.callbacks.onTeraxOpen?.(input);
+      registerOasisOpenHandler(term, (input) => {
+        session.callbacks.onOasisOpen?.(input);
       }),
     );
   })();
@@ -373,7 +373,7 @@ type Options = {
   onExit?: (code: number) => void;
   onCwd?: (cwd: string) => void;
   onDetectedLocalUrl?: (url: string) => void;
-  onTeraxOpen?: (input: TeraxOpenInput) => void;
+  onOasisOpen?: (input: OasisOpenInput) => void;
 };
 
 export function useTerminalSession({
@@ -386,21 +386,21 @@ export function useTerminalSession({
   onExit,
   onCwd,
   onDetectedLocalUrl,
-  onTeraxOpen,
+  onOasisOpen,
 }: Options) {
   const cbRef = useRef({
     onSearchReady,
     onExit,
     onCwd,
     onDetectedLocalUrl,
-    onTeraxOpen,
+    onOasisOpen,
   });
   cbRef.current = {
     onSearchReady,
     onExit,
     onCwd,
     onDetectedLocalUrl,
-    onTeraxOpen,
+    onOasisOpen,
   };
 
   useEffect(() => {
@@ -413,7 +413,7 @@ export function useTerminalSession({
         onExit: (c) => cbRef.current.onExit?.(c),
         onCwd: (c) => cbRef.current.onCwd?.(c),
         onDetectedLocalUrl: (u) => cbRef.current.onDetectedLocalUrl?.(u),
-        onTeraxOpen: (input) => cbRef.current.onTeraxOpen?.(input),
+        onOasisOpen: (input) => cbRef.current.onOasisOpen?.(input),
       });
       if (visible && focused) s.term.focus();
     });
