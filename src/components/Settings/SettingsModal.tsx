@@ -9,12 +9,7 @@
 //
 // Mounts unconditionally in App.tsx; self-hides when settingsModalOpen = false.
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Button, Modal } from "@/design/components";
 import { useSettingsStore } from "@/state/settingsStore";
 import { useVaultStore } from "@/state/vaultStore";
 import { useState } from "react";
@@ -44,12 +39,7 @@ export function SettingsModal() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && closeModal()}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Settings</DialogTitle>
-        </DialogHeader>
-
+    <Modal open={open} onClose={closeModal} title="Settings" size="md">
         <div className="flex flex-col gap-5 py-2">
           {/* Row 1: Current vault */}
           <div className="flex items-center justify-between gap-4">
@@ -64,13 +54,14 @@ export function SettingsModal() {
                 {vaultRoot ?? "—"}
               </span>
             </div>
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="sm"
+              className="shrink-0"
               onClick={handleSwitchVault}
-              className="shrink-0 rounded-md border border-border/60 bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-accent transition-colors"
             >
               Switch vault…
-            </button>
+            </Button>
           </div>
 
           <div className="border-t border-border/60" />
@@ -135,7 +126,6 @@ export function SettingsModal() {
             />
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+    </Modal>
   );
 }
