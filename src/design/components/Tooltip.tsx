@@ -5,6 +5,7 @@
 import {
   cloneElement,
   ReactElement,
+  Ref,
   useRef,
   useState,
   useEffect,
@@ -13,9 +14,17 @@ import {
 import { createPortal } from 'react-dom'
 import styles from './Tooltip.module.css'
 
+interface InjectedProps {
+  ref?: Ref<HTMLElement>
+  onMouseEnter?: (e: React.MouseEvent) => void
+  onMouseLeave?: (e: React.MouseEvent) => void
+  onFocus?: (e: React.FocusEvent) => void
+  onBlur?: (e: React.FocusEvent) => void
+}
+
 export interface TooltipProps {
   content: string
-  children: ReactElement
+  children: ReactElement<InjectedProps>
   delay?: number
   placement?: 'top' | 'bottom' | 'left' | 'right'
 }
