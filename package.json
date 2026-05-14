@@ -1,7 +1,7 @@
 {
   "name": "oasis",
   "private": true,
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Lightweight terminal + Obsidian-compatible vault, in one window.",
   "author": "Brekken <brekkenp45@gmail.com>",
   "license": "Apache-2.0",
