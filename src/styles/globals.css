@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "../design/tokens.css";
 
 @source "../../node_modules/streamdown/dist/index.js";
 
@@ -59,88 +60,8 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.148 0.004 228.8);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.148 0.004 228.8);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.148 0.004 228.8);
-    --primary: oklch(0.218 0.008 223.9);
-    --primary-foreground: oklch(0.987 0.002 197.1);
-    --secondary: oklch(0.963 0.002 197.1);
-    --secondary-foreground: oklch(0.218 0.008 223.9);
-    --muted: oklch(0.963 0.002 197.1);
-    --muted-foreground: oklch(0.56 0.021 213.5);
-    --accent: oklch(0.963 0.002 197.1);
-    --accent-foreground: oklch(0.218 0.008 223.9);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.925 0.005 214.3);
-    --input: oklch(0.925 0.005 214.3);
-    --ring: oklch(0.723 0.014 214.4);
-    --chart-1: oklch(0.872 0.007 219.6);
-    --chart-2: oklch(0.56 0.021 213.5);
-    --chart-3: oklch(0.45 0.017 213.2);
-    --chart-4: oklch(0.378 0.015 216);
-    --chart-5: oklch(0.275 0.011 216.9);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.987 0.002 197.1);
-    --sidebar-foreground: oklch(0.148 0.004 228.8);
-    --sidebar-primary: oklch(0.218 0.008 223.9);
-    --sidebar-primary-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-accent: oklch(0.963 0.002 197.1);
-    --sidebar-accent-foreground: oklch(0.218 0.008 223.9);
-    --sidebar-border: oklch(0.925 0.005 214.3);
-    --sidebar-ring: oklch(0.723 0.014 214.4);
-}
-
-.dark {
-    /* Oasis dark palette — Claude Design handoff (oasis-design.html).
-     * Cool near-black base, sage-teal primary (water), warm-sand secondary accent.
-     * Note: shadcn's --accent stays a surface tone for component compatibility;
-     * the warm-tan brand accent is exposed as --accent-warm.
-     */
-    --background: #0b0e13;
-    --background-2: #0d1118;     /* titlebar, mode-bar, terminal status row */
-    --foreground: #d6dbe4;
-    --foreground-strong: #eef1f6; /* headings, active tab labels */
-    --subtle-foreground: #515c6c; /* gutter line numbers, kbd hints */
-    --card: #10141b;
-    --card-foreground: #d6dbe4;
-    --card-2: #131922;            /* hover / active row */
-    --popover: #10141b;
-    --popover-foreground: #d6dbe4;
-    --primary: #7fb3a3;
-    --primary-foreground: #0b0e13;
-    --primary-soft: #7fb3a322;    /* 13% alpha wash for chips, focus rings */
-    --secondary: #161c25;
-    --secondary-foreground: #d6dbe4;
-    --muted: #161c25;
-    --muted-foreground: #7a8494;
-    --accent: #161c25;            /* shadcn-compatible surface accent */
-    --accent-foreground: #d6dbe4;
-    --accent-warm: #d4a574;       /* warm-sand brand accent (links/wikilinks) */
-    --accent-soft: #d4a57418;
-    --destructive: #e06c75;
-    --border: #1c232d;
-    --border-strong: #283140;     /* segmented control divider, modal edge */
-    --input: #1c232d;
-    --ring: #3a4d6b;
-    --chart-1: oklch(0.872 0.007 219.6);
-    --chart-2: oklch(0.56 0.021 213.5);
-    --chart-3: oklch(0.45 0.017 213.2);
-    --chart-4: oklch(0.378 0.015 216);
-    --chart-5: oklch(0.275 0.011 216.9);
-    --sidebar: #0d1118;
-    --sidebar-foreground: #b9c0cc;
-    --sidebar-muted: #6c7686;     /* sb-foot, sb-title chrome labels */
-    --sidebar-primary: #7fb3a3;
-    --sidebar-primary-foreground: #0b0e13;
-    --sidebar-accent: #161c25;
-    --sidebar-accent-foreground: #eef1f6;
-    --sidebar-border: #161c25;
-    --sidebar-ring: #3a4d6b;
-}
+/* Token values live in src/design/tokens.css (imported above).
+ * globals.css retains only the Tailwind v4 @theme inline mapping below. */
 
 @layer base {
   * {
