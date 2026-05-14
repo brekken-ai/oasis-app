@@ -2,6 +2,17 @@
   "name": "oasis",
   "private": true,
   "version": "0.6.1",
+  "description": "Lightweight terminal + Obsidian-compatible vault, in one window.",
+  "author": "Brekken <brekkenp45@gmail.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brekken-ai/oasis-app"
+  },
+  "homepage": "https://github.com/brekken-ai/oasis-app",
+  "bugs": {
+    "url": "https://github.com/brekken-ai/oasis-app/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

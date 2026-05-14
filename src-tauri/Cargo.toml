@@ -1,8 +1,10 @@
 [package]
 name = "oasis"
 version = "0.6.1"
-description = "Oasis — lightweight terminal + Obsidian-compatible vault, in one window"
-authors = ["Brekken (fork of Terax by crynta)"]
+description = "Lightweight terminal + Obsidian-compatible vault, in one window."
+authors = ["Brekken <brekkenp45@gmail.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/brekken-ai/oasis-app"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
