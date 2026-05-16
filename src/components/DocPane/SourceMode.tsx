@@ -182,13 +182,18 @@ export function SourceMode() {
   // Flush-on-close: intercept Tauri close-requested, drain pending writes,
   // then destroy the window. Single window-level registration; we keep the
   // pending state in module-stable refs so the handler always sees the
-  // freshest value.
+  // freshest value. destroy() runs in a finally so a flush throw can never
+  // leave the window stuck open.
   useEffect(() => {
     const win = getCurrentWindow();
     const unlistenPromise = win.onCloseRequested(async (event) => {
-      if (pendingSaveRef.current) {
-        event.preventDefault();
+      if (!pendingSaveRef.current) return;
+      event.preventDefault();
+      try {
         await flushAutosave();
+      } catch (e) {
+        console.error("flush-on-close failed; closing anyway", e);
+      } finally {
         await win.destroy();
       }
     });

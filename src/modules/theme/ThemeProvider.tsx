@@ -49,7 +49,7 @@ function writeFastTheme(t: Theme): void {
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme = "dark",
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(() =>
     readFastTheme(defaultTheme),

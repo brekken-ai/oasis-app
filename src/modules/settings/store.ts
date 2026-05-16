@@ -71,7 +71,10 @@ const KEY_VIM_MODE = "vimMode";
 const KEY_SHORTCUTS = "shortcuts";
 
 export const DEFAULT_PREFERENCES: Preferences = {
-  theme: "system",
+  // Oasis is dark-only by design (see src/design/tokens.css — the light palette
+  // is an unfinished shadcn placeholder). Default to "dark" so first-paint on a
+  // fresh install matches the Claude Design handoff regardless of system theme.
+  theme: "dark",
   defaultModelId: DEFAULT_MODEL_ID,
   editorTheme: "atomone",
   customInstructions: "",

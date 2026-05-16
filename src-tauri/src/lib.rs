@@ -145,6 +145,16 @@ pub fn run() {
             vault::vault_load_index,
             vault::vault_save_index,
         ])
+        // Quit when the main window closes. Cocoa's default is to keep the
+        // app alive in the dock after the last window closes; Oasis is a
+        // single-window utility, so red-X should mean quit.
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { .. } = event {
+                if window.label() == "main" {
+                    window.app_handle().exit(0);
+                }
+            }
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

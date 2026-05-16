@@ -11,10 +11,12 @@
 
 /* ============================================================
  * LIGHT MODE (default / solid)
+ * Plain :root so `.dark` on <html> (specificity 0-1-0) can override
+ * via source order. Using :root:not([data-bg-mode]) here would be
+ * 0-1-1 and beat `.dark`, leaving the app stuck in light mode.
  * ============================================================ */
 
-:root[data-bg-mode="solid"],
-:root:not([data-bg-mode]) {
+:root {
     /* === Surfaces === */
     --background: oklch(1 0 0);
     --background-2: oklch(0.987 0.002 197.1);
